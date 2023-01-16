@@ -1,8 +1,20 @@
 package views
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/Post-and-Play/gears/controllers"
+	"github.com/gin-gonic/gin"
+)
 
 func Router() {
 	r := gin.Default()
+
+	r.GET("/users/:id", controllers.GetUser)
+
+	r.POST("/users", controllers.CreateUser)
+
+	r.PATCH("/users/:id", controllers.EditUser)
+
+	r.DELETE("/users/:id", controllers.DeleteUser)
+
 	r.Run()
 }
