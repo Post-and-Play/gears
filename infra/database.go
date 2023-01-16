@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/Post-and-Play/gears/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -28,4 +29,10 @@ func DatabaseConnect() {
 		log.Panic("Database connection error")
 	}
 
+	autoMigrateModels()
+}
+
+func autoMigrateModels() {
+	DB.AutoMigrate(&models.User{})
+	DB.AutoMigrate(&models.Login{})
 }

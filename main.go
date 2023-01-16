@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/Johnman67112/gears/infra"
+	"github.com/Post-and-Play/gears/infra"
 	"github.com/joho/godotenv"
 )
 
