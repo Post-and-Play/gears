@@ -1,7 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"github.com/Johnman67112/gears/infra"
+	"github.com/joho/godotenv"
+)
 
 func main() {
-	fmt.Println("Hello World")
+	godotenv.Load(".env")
+	infra.DatabaseConnect()
 }
