@@ -2,13 +2,13 @@ package models
 
 import (
 	"gopkg.in/validator.v2"
-	"gorm.io/gorm"
 )
 
 type User struct {
-	gorm.Model
+	ID        string `json:"id"`
 	Name      string `json:"name" validate:"nonzero"`
 	UserName  string `json:"user_name" validate:"nonzero"`
+	Password  string `json:"password" validate:"nonzero"`
 	Mail      string `json:"mail" validate:"nonzero"`
 	BirthDate string `json:"birth_date" validate:"nonzero"`
 }

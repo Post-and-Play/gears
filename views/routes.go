@@ -16,5 +16,7 @@ func Router() {
 
 	r.DELETE("/users/:id", controllers.DeleteUser)
 
+	r.POST("/login", controllers.Login)
+
 	r.Run()
 }
