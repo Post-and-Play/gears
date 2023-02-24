@@ -25,14 +25,14 @@ func Login(c *gin.Context) {
 
 	if user.ID == "" {
 		log.Panic("Wrong e-mail")
-		c.JSON(http.StatusNotFound, gin.H{"Not found": "Usuário não existe!"})
+		c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
 		return
 	}
 
 	//Encode pass ennter && verify
 	if user.Password != services.SHA256Encoder(login.Password) {
 		log.Panic("Wrong password")
-		c.JSON(http.StatusBadRequest, gin.H{"Erro no login": "Credenciais invalidas!"})
+		c.JSON(http.StatusForbidden, gin.H{"Forbidden": "Invalid credentials"})
 		return
 	}
 
@@ -40,7 +40,7 @@ func Login(c *gin.Context) {
 	token, err := services.NewJWTService().GenerateToken(1234)
 	if err != nil {
 		log.Panicf("Generate token error: %+v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"Erro no login": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"Not found": err.Error()})
 		return
 	}
 
