@@ -1,4 +1,4 @@
-package views
+package ui
 
 import (
 	"github.com/Post-and-Play/gears/controllers"
