@@ -14,20 +14,20 @@ func CreateUser(c *gin.Context) {
 	var user models.User
 
 	if err := c.ShouldBindJSON(&user); err != nil {
-		log.Panicf("Binding error: %+v", err)
+		log.Default().Printf("Binding error: %+v", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	if err := models.UserValidator(&user); err != nil {
-		log.Panicf("Validation error: %+v", err)
+		log.Default().Printf("Validation error: %+v", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	infra.DB.First(&user).Where("mail = $1", user.Mail)
 	if user.ID != "" {
-		log.Panic("User already exists")
+		log.Default().Print("User already exists")
 		c.JSON(http.StatusConflict, user)
 		return
 	}
@@ -35,7 +35,7 @@ func CreateUser(c *gin.Context) {
 	user.Password = services.SHA256Encoder(user.Password)
 
 	if infra.DB.Create(&user).RowsAffected == 0 {
-		log.Panic("Internal server error")
+		log.Default().Print("Internal server error")
 		c.JSON(http.StatusInternalServerError, gin.H{"Internal server error": "Something has occured"})
 		return
 	}
@@ -50,7 +50,7 @@ func GetUser(c *gin.Context) {
 	infra.DB.First(&user, id)
 
 	if user.ID == "" {
-		log.Panic("User not found")
+		log.Default().Print("User not found")
 		c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
 		return
 	}
@@ -62,13 +62,13 @@ func EditUser(c *gin.Context) {
 	var user models.User
 
 	if err := c.ShouldBindJSON(&user); err != nil {
-		log.Panicf("Binding error: %+v", err)
+		log.Default().Printf("Binding error: %+v", err)
 		c.JSON(http.StatusBadRequest, gin.H{"Binding error": err.Error()})
 		return
 	}
 
 	if err := models.UserValidator(&user); err != nil {
-		log.Panicf("Validation error: %+v", err)
+		log.Default().Printf("Validation error: %+v", err)
 		c.JSON(http.StatusBadRequest, gin.H{"Validation error": err.Error()})
 		return
 	}
@@ -77,13 +77,13 @@ func EditUser(c *gin.Context) {
 
 	infra.DB.First(&databaseUser).Where("mail = $1", databaseUser.Mail)
 	if user.ID == "" {
-		log.Panic("User not found")
+		log.Default().Print("User not found")
 		c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
 		return
 	}
 
 	if infra.DB.Model(&user).UpdateColumns(user).RowsAffected == 0 {
-		log.Panic("Internal server error")
+		log.Default().Print("Internal server error")
 		c.JSON(http.StatusInternalServerError, gin.H{"Internal server error": "Something has occured"})
 		return
 	}
@@ -96,12 +96,12 @@ func DeleteUser(c *gin.Context) {
 
 	infra.DB.First(&user, id)
 	if user.ID == "" {
-		log.Panic("User not found")
+		log.Default().Print("User not found")
 		c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
 	}
 
 	if infra.DB.Delete(&user, id).RowsAffected == 0 {
-		log.Panic("Internal server error")
+		log.Default().Print("Internal server error")
 		c.JSON(http.StatusInternalServerError, gin.H{"Internal server error": "Something has occured"})
 		return
 	}

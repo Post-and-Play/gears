@@ -14,7 +14,7 @@ func Login(c *gin.Context) {
 	var login models.Login
 
 	if err := c.ShouldBindJSON(&login); err != nil {
-		log.Panicf("Biding error: %+v", err)
+		log.Default().Printf("Biding error: %+v", err)
 		c.JSON(http.StatusBadRequest, gin.H{"Binding error": err.Error()})
 		return
 	}
@@ -24,14 +24,14 @@ func Login(c *gin.Context) {
 	infra.DB.Table("USER").Where("mail = ?", login.Mail).First(&user)
 
 	if user.ID == "" {
-		log.Panic("Wrong e-mail")
+		log.Default().Print("Wrong e-mail")
 		c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
 		return
 	}
 
 	//Encode pass ennter && verify
 	if user.Password != services.SHA256Encoder(login.Password) {
-		log.Panic("Wrong password")
+		log.Default().Print("Wrong password")
 		c.JSON(http.StatusForbidden, gin.H{"Forbidden": "Invalid credentials"})
 		return
 	}
@@ -39,7 +39,7 @@ func Login(c *gin.Context) {
 	//Generate JWT Token
 	token, err := services.NewJWTService().GenerateToken(1234)
 	if err != nil {
-		log.Panicf("Generate token error: %+v", err)
+		log.Default().Printf("Generate token error: %+v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"Not found": err.Error()})
 		return
 	}
