@@ -38,7 +38,7 @@ func CreateUser(c *gin.Context) {
 
 func GetUser(c *gin.Context) {
 	var user models.User
-	id := c.Params.ByName("id")
+	id := c.Query("id")
 
 	infra.DB.First(&user, id)
 
@@ -79,7 +79,7 @@ func EditUser(c *gin.Context) {
 
 func DeleteUser(c *gin.Context) {
 	var user models.User
-	id := c.Params.ByName("id")
+	id := c.Query("id")
 
 	infra.DB.First(&user, id)
 	if id == "" {

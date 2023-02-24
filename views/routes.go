@@ -8,13 +8,13 @@ import (
 func Router() {
 	r := gin.Default()
 
-	r.GET("/users/:id", controllers.GetUser)
+	r.GET("/users?id", controllers.GetUser)
 
 	r.POST("/users", controllers.CreateUser)
 
-	r.PATCH("/users/:id", controllers.EditUser)
+	r.PATCH("/users", controllers.EditUser)
 
-	r.DELETE("/users/:id", controllers.DeleteUser)
+	r.DELETE("/users?id", controllers.DeleteUser)
 
 	r.POST("/login", controllers.Login)
 
