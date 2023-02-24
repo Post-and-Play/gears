@@ -5,6 +5,8 @@ import (
 	"github.com/joho/godotenv"
 )
 
+//v0.1
+
 func main() {
 	godotenv.Load(".env")
 	infra.DatabaseConnect()
