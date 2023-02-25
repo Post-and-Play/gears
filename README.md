@@ -13,4 +13,4 @@ v0.2
 
 ## Docs
 
-github.com/Post-and-Play/gears/docs
+[Docs] https://github.com/Post-and-Play/gears/docs

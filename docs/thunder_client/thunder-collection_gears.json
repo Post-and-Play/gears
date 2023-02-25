@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "gears",
-    "dateExported": "2023-02-24T02:03:22.789Z",
+    "dateExported": "2023-02-25T00:53:14.792Z",
     "version": "1.1",
     "folders": [
         {
@@ -22,12 +22,12 @@
             "method": "POST",
             "sortNum": 10000,
             "created": "2023-02-24T01:09:21.134Z",
-            "modified": "2023-02-24T01:34:56.390Z",
+            "modified": "2023-02-25T00:52:55.472Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"id\":\"1\",\n  \"name\":\"jonas\",\n  \"user_name\":\"jonas_euclides\",\n  \"password\":\"1234\",\n  \"mail\":\"jonaseuclides@mail.com\",\n  \"birth_date\":\"01/01/2001\"\n}",
+                "raw": "{\n  \"name\":\"blaa\",\n  \"user_name\":\"blaa\",\n  \"password\":\"12345\",\n  \"mail\":\"blaaa@bla.com\",\n  \"birth_date\":\"blaa/blaa/blaa\"\n}",
                 "form": []
             },
             "tests": []
@@ -37,16 +37,16 @@
             "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
             "containerId": "1ff83313-210c-4c23-8100-254dbe067214",
             "name": "Get User",
-            "url": "localhost:5000/users?id",
+            "url": "localhost:5000/users?id=1",
             "method": "GET",
             "sortNum": 20000,
             "created": "2023-02-24T01:09:33.215Z",
-            "modified": "2023-02-24T01:21:43.211Z",
+            "modified": "2023-02-24T23:46:23.962Z",
             "headers": [],
             "params": [
                 {
                     "name": "id",
-                    "value": "",
+                    "value": "1",
                     "isPath": false
                 }
             ],
@@ -61,12 +61,12 @@
             "method": "PATCH",
             "sortNum": 30000,
             "created": "2023-02-24T01:10:17.690Z",
-            "modified": "2023-02-24T01:34:41.903Z",
+            "modified": "2023-02-24T23:53:00.586Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"id\":\"1\",\n  \"name\":\"jonas\",\n  \"user_name\":\"jonas_euclides\",\n  \"password\":\"1234\",\n  \"mail\":\"jonaseuclidessss@mail.com\",\n  \"birth_date\":\"01/01/2001\"\n}",
+                "raw": "{\n  \"name\":\"jonas\",\n  \"user_name\":\"jonas_euclides\",\n  \"password\":\"1234\",\n  \"mail\":\"jonaseuclidessss@mail.com\",\n  \"birth_date\":\"01/01/2001\"\n}",
                 "form": []
             },
             "tests": []
@@ -76,16 +76,16 @@
             "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
             "containerId": "1ff83313-210c-4c23-8100-254dbe067214",
             "name": "Delete User",
-            "url": "localhost:5000/users?id",
+            "url": "localhost:5000/users?id=1",
             "method": "DELETE",
             "sortNum": 40000,
             "created": "2023-02-24T01:10:36.620Z",
-            "modified": "2023-02-24T01:22:20.323Z",
+            "modified": "2023-02-25T00:43:42.043Z",
             "headers": [],
             "params": [
                 {
                     "name": "id",
-                    "value": "",
+                    "value": "1",
                     "isPath": false
                 }
             ],
@@ -100,12 +100,12 @@
             "method": "POST",
             "sortNum": 50000,
             "created": "2023-02-24T01:11:05.606Z",
-            "modified": "2023-02-24T02:02:20.361Z",
+            "modified": "2023-02-25T00:43:55.109Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"user_name\":\"jonas_euclides\",\n  \"mail\":\"jonas_euclides@mail.com\",\n  \"password\":\"1234\"\n}",
+                "raw": "{\n  \"mail\":\"jonas_euclides@mail.com\",\n  \"password\":\"1234\"\n}",
                 "form": []
             },
             "tests": []
