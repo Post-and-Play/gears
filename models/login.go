@@ -5,8 +5,7 @@ import (
 )
 
 type Login struct {
-	UserName string `json:"user_name"`
-	Mail     string `json:"mail"`
+	Mail     string `json:"mail" validate:"nonzero"`
 	Password string `json:"password" validate:"nonzero"`
 }
 

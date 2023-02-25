@@ -3,6 +3,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/Post-and-Play/gears/infra"
 	"github.com/Post-and-Play/gears/models"
@@ -16,6 +17,12 @@ func Login(c *gin.Context) {
 	if err := c.ShouldBindJSON(&login); err != nil {
 		log.Default().Printf("Biding error: %+v", err)
 		c.JSON(http.StatusBadRequest, gin.H{"Binding error": err.Error()})
+		return
+	}
+
+	if err := models.LoginValidator(&login); err != nil {
+		log.Default().Printf("Validation error: %+v", err)
+		c.JSON(http.StatusBadRequest, gin.H{"Validation error": err.Error()})
 		return
 	}
 
@@ -36,11 +43,18 @@ func Login(c *gin.Context) {
 		return
 	}
 
+	numId, err := strconv.Atoi(user.ID)
+	if err != nil {
+		log.Default().Printf("Strconv error: %+v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"Not found": err.Error()})
+		return
+	}
+
 	//Generate JWT Token
-	token, err := services.NewJWTService().GenerateToken(1234)
+	token, err := services.NewJWTService().GenerateToken(int64(numId))
 	if err != nil {
 		log.Default().Printf("Generate token error: %+v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"Not found": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"Internal server error": err.Error()})
 		return
 	}
 

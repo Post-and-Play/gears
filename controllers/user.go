@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -19,26 +20,37 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
+	fmt.Printf("\nUSER 1: %+v", user)
+
 	if err := models.UserValidator(&user); err != nil {
 		log.Default().Printf("Validation error: %+v", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"Validation error": err.Error()})
 		return
 	}
 
-	infra.DB.First(&user).Where("mail = $1", user.Mail)
-	if user.ID != "" {
-		log.Default().Print("User already exists")
-		c.JSON(http.StatusConflict, user)
-		return
+	fmt.Printf("\nUSER 2: %+v", user)
+
+	if infra.DB.First(&user).Where("mail = $1", user.Mail).RowsAffected > 0 {
+		if user.ID != "" {
+			log.Default().Print("User already exists")
+			c.JSON(http.StatusConflict, user)
+			return
+		}
 	}
+
+	fmt.Printf("\nUSER 3: %+v", user)
 
 	user.Password = services.SHA256Encoder(user.Password)
 
 	if infra.DB.Create(&user).RowsAffected == 0 {
 		log.Default().Print("Internal server error")
+		fmt.Println("ERRO AQUIIII")
+		fmt.Println(user)
 		c.JSON(http.StatusInternalServerError, gin.H{"Internal server error": "Something has occured"})
 		return
 	}
+
+	fmt.Printf("\nUSER 4: %+v", user)
 
 	c.JSON(http.StatusOK, user)
 }
