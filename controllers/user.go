@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -20,15 +19,11 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
-	fmt.Printf("\nUSER 1: %+v", user)
-
 	if err := models.UserValidator(&user); err != nil {
 		log.Default().Printf("Validation error: %+v", err)
 		c.JSON(http.StatusBadRequest, gin.H{"Validation error": err.Error()})
 		return
 	}
-
-	fmt.Printf("\nUSER 2: %+v", user)
 
 	if infra.DB.Where("mail = $1", user.Mail).Find(&user).RowsAffected > 0 {
 		if user.ID != 0 {
@@ -38,19 +33,13 @@ func CreateUser(c *gin.Context) {
 		}
 	}
 
-	fmt.Printf("\nUSER 3: %+v", user)
-
 	user.Password = services.SHA256Encoder(user.Password)
 
 	if infra.DB.Model(&user).Create(&user).RowsAffected == 0 {
 		log.Default().Print("Internal server error")
-		fmt.Println("ERRO AQUIIII")
-		fmt.Printf("\nUSER 5: %+v", user)
 		c.JSON(http.StatusInternalServerError, gin.H{"Internal server error": "Something has occured"})
 		return
 	}
-
-	fmt.Printf("\nUSER 4: %+v", user)
 
 	c.JSON(http.StatusOK, user)
 }
