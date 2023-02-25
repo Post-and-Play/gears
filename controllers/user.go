@@ -30,7 +30,7 @@ func CreateUser(c *gin.Context) {
 
 	fmt.Printf("\nUSER 2: %+v", user)
 
-	if infra.DB.First(&user).Where("mail = $1", user.Mail).RowsAffected > 0 {
+	if infra.DB.First(&user, user.Mail).RowsAffected > 0 {
 		if user.ID != "" {
 			log.Default().Print("User already exists")
 			c.JSON(http.StatusConflict, user)
@@ -87,14 +87,14 @@ func EditUser(c *gin.Context) {
 
 	var databaseUser models.User
 
-	infra.DB.First(&databaseUser).Where("mail = $1", databaseUser.Mail)
+	infra.DB.First(&databaseUser, user.Mail)
 	if user.ID == "" {
 		log.Default().Print("User not found")
 		c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
 		return
 	}
 
-	if infra.DB.Model(&user).UpdateColumns(user).RowsAffected == 0 {
+	if infra.DB.Model(&user).UpdateColumns(&user).RowsAffected == 0 {
 		log.Default().Print("Internal server error")
 		c.JSON(http.StatusInternalServerError, gin.H{"Internal server error": "Something has occured"})
 		return

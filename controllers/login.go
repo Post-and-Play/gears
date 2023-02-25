@@ -28,7 +28,7 @@ func Login(c *gin.Context) {
 
 	var user models.User
 
-	infra.DB.Table("USER").Where("mail = ?", login.Mail).First(&user)
+	infra.DB.Table("USER").First(&user, login.Mail)
 
 	if user.ID == "" {
 		log.Default().Print("Wrong e-mail")
