@@ -3,7 +3,6 @@ package controllers
 import (
 	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/Post-and-Play/gears/infra"
 	"github.com/Post-and-Play/gears/models"
@@ -28,9 +27,9 @@ func Login(c *gin.Context) {
 
 	var user models.User
 
-	infra.DB.Table("USER").First(&user, login.Mail)
+	infra.DB.Table("USER").Find(&user, login.Mail)
 
-	if user.ID == "" {
+	if user.ID == 0 {
 		log.Default().Print("Wrong e-mail")
 		c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
 		return
@@ -43,15 +42,8 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	numId, err := strconv.Atoi(user.ID)
-	if err != nil {
-		log.Default().Printf("Strconv error: %+v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"Not found": err.Error()})
-		return
-	}
-
 	//Generate JWT Token
-	token, err := services.NewJWTService().GenerateToken(int64(numId))
+	token, err := services.NewJWTService().GenerateToken(int64(user.ID))
 	if err != nil {
 		log.Default().Printf("Generate token error: %+v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"Internal server error": err.Error()})

@@ -30,8 +30,8 @@ func CreateUser(c *gin.Context) {
 
 	fmt.Printf("\nUSER 2: %+v", user)
 
-	if infra.DB.First(&user, user.Mail).RowsAffected > 0 {
-		if user.ID != "" {
+	if infra.DB.Where("mail = $1", user.Mail).Find(&user).RowsAffected > 0 {
+		if user.ID != 0 {
 			log.Default().Print("User already exists")
 			c.JSON(http.StatusConflict, user)
 			return
@@ -42,10 +42,10 @@ func CreateUser(c *gin.Context) {
 
 	user.Password = services.SHA256Encoder(user.Password)
 
-	if infra.DB.Create(&user).RowsAffected == 0 {
+	if infra.DB.Model(&user).Create(&user).RowsAffected == 0 {
 		log.Default().Print("Internal server error")
 		fmt.Println("ERRO AQUIIII")
-		fmt.Println(user)
+		fmt.Printf("\nUSER 5: %+v", user)
 		c.JSON(http.StatusInternalServerError, gin.H{"Internal server error": "Something has occured"})
 		return
 	}
@@ -61,7 +61,7 @@ func GetUser(c *gin.Context) {
 
 	infra.DB.First(&user, id)
 
-	if user.ID == "" {
+	if user.ID == 0 {
 		log.Default().Print("User not found")
 		c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
 		return
@@ -87,8 +87,8 @@ func EditUser(c *gin.Context) {
 
 	var databaseUser models.User
 
-	infra.DB.First(&databaseUser, user.Mail)
-	if user.ID == "" {
+	infra.DB.Where("mail = $1", user.Mail).Find(&databaseUser)
+	if user.ID == 0 {
 		log.Default().Print("User not found")
 		c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
 		return
@@ -107,7 +107,7 @@ func DeleteUser(c *gin.Context) {
 	id := c.Query("id")
 
 	infra.DB.First(&user, id)
-	if user.ID == "" {
+	if user.ID == 0 {
 		log.Default().Print("User not found")
 		c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
 	}
