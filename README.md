@@ -8,8 +8,12 @@ v0.2
 
 ### Changelog
 
-- User Register
-- Login
+- Http server improvement
+- User and login fixes
+- Healthcheck
+- Doc improvement
+- Go update version
+- Docker assert
 
 ## Docs
 
