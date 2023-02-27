@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/Post-and-Play/gears/infra"
@@ -13,36 +14,41 @@ func Login(c *gin.Context) {
 	var login models.Login
 
 	if err := c.ShouldBindJSON(&login); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"Erro no login": err.Error()})
+		log.Default().Printf("Biding error: %+v", err)
+		c.JSON(http.StatusBadRequest, gin.H{"Binding error": err.Error()})
+		return
+	}
+
+	if err := models.LoginValidator(&login); err != nil {
+		log.Default().Printf("Validation error: %+v", err)
+		c.JSON(http.StatusBadRequest, gin.H{"Validation error": err.Error()})
 		return
 	}
 
 	var user models.User
 
-	infra.DB.Table("USER").Where("mail = ?", login.Mail).First(&user)
-
-	if user.Mail != login.Mail {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"Erro no banco": "Usuário não existe!"})
-		return
+	if infra.DB.Where("mail = $1", login.Mail).Find(&user).RowsAffected > 0 {
+		if user.ID == 0 {
+			log.Default().Print("Wrong e-mail")
+			c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
+			return
+		}
 	}
 
 	//Encode pass ennter && verify
 	if user.Password != services.SHA256Encoder(login.Password) {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"Erro no login": "Credenciais invalidas!"})
+		log.Default().Print("Wrong password")
+		c.JSON(http.StatusForbidden, gin.H{"Forbidden": "Invalid credentials"})
 		return
 	}
 
 	//Generate JWT Token
-	token, err := services.NewJWTService().GenerateToken(1234)
+	token, err := services.NewJWTService().GenerateToken(int64(user.ID))
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"Erro no login": err.Error()})
+		log.Default().Printf("Generate token error: %+v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"Internal server error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"Token": token})
+	c.JSON(http.StatusOK, gin.H{"Token": token})
 }

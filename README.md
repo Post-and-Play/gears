@@ -4,13 +4,17 @@ Backend structure for Post and Play web application
 
 ## Version
 
-v0.1
+v0.2
 
 ### Changelog
 
-- User Register
-- Login
+- Http server improvement
+- User and login fixes
+- Healthcheck
+- Doc improvement
+- Go update version
+- Docker assert
 
 ## Docs
 
-github.com/Post-and-Play/gears/docs
+[Docs] https://github.com/Post-and-Play/gears/docs
