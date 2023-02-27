@@ -1,22 +1,53 @@
 package ui
 
 import (
+	"net/http"
+
 	"github.com/Post-and-Play/gears/controllers"
 	"github.com/gin-gonic/gin"
 )
 
-func Router() {
-	r := gin.Default()
+type Route struct {
+	Path    string
+	Method  string
+	Handler gin.HandlerFunc
+}
 
-	r.GET("/users", controllers.GetUser)
+var healthCheck = []Route{
+	{
+		"healthz",
+		http.MethodGet,
+		controllers.Health,
+	},
+	{
+		"readiness",
+		http.MethodGet,
+		controllers.Readiness,
+	},
+}
 
-	r.POST("/users", controllers.CreateUser)
+var cad = []Route{
+	{
+		"/users",
+		http.MethodGet,
+		controllers.GetUser,
+	},
+	{
+		"/users",
+		http.MethodPost,
+		controllers.CreateUser,
+	},
+	{
+		"/users",
+		http.MethodDelete,
+		controllers.DeleteUser,
+	},
+}
 
-	r.PATCH("/users", controllers.EditUser)
-
-	r.DELETE("/users", controllers.DeleteUser)
-
-	r.POST("/login", controllers.Login)
-
-	r.Run()
+var login = []Route{
+	{
+		"/login",
+		http.MethodPost,
+		controllers.Login,
+	},
 }

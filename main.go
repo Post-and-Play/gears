@@ -11,5 +11,5 @@ import (
 func main() {
 	godotenv.Load(".env")
 	infra.DatabaseConnect()
-	ui.Router()
+	ui.RunServer()
 }
