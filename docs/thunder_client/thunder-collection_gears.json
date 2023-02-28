@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "gears",
-    "dateExported": "2023-02-27T23:42:37.040Z",
+    "dateExported": "2023-02-28T13:05:38.670Z",
     "version": "1.1",
     "folders": [
         {
@@ -25,11 +25,11 @@
             "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
             "containerId": "1ff83313-210c-4c23-8100-254dbe067214",
             "name": "Create User",
-            "url": "localhost:5000/users",
+            "url": "{{HOST}}:{{PORT}}/users",
             "method": "POST",
             "sortNum": 10000,
             "created": "2023-02-24T01:09:21.134Z",
-            "modified": "2023-02-27T23:00:48.318Z",
+            "modified": "2023-02-28T13:04:59.615Z",
             "headers": [],
             "params": [],
             "body": {
@@ -44,11 +44,11 @@
             "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
             "containerId": "1ff83313-210c-4c23-8100-254dbe067214",
             "name": "Get User",
-            "url": "localhost:5000/users?id=2",
+            "url": "{{HOST}}:{{PORT}}/users?id=2",
             "method": "GET",
             "sortNum": 20000,
             "created": "2023-02-24T01:09:33.215Z",
-            "modified": "2023-02-27T23:01:06.887Z",
+            "modified": "2023-02-28T13:05:08.793Z",
             "headers": [],
             "params": [
                 {
@@ -64,11 +64,11 @@
             "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
             "containerId": "1ff83313-210c-4c23-8100-254dbe067214",
             "name": "Delete User",
-            "url": "localhost:5000/users?id=2",
+            "url": "{{HOST}}:{{PORT}}/users?id=2",
             "method": "DELETE",
             "sortNum": 40000,
             "created": "2023-02-24T01:10:36.620Z",
-            "modified": "2023-02-27T23:01:21.390Z",
+            "modified": "2023-02-28T13:05:13.782Z",
             "headers": [],
             "params": [
                 {
@@ -84,11 +84,11 @@
             "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
             "containerId": "1ff83313-210c-4c23-8100-254dbe067214",
             "name": "Login",
-            "url": "localhost:5000/login",
+            "url": "{{HOST}}:{{PORT}}/login",
             "method": "POST",
             "sortNum": 50000,
             "created": "2023-02-24T01:11:05.606Z",
-            "modified": "2023-02-27T23:04:01.505Z",
+            "modified": "2023-02-28T13:05:19.210Z",
             "headers": [],
             "params": [],
             "body": {
@@ -103,11 +103,11 @@
             "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
             "containerId": "65650062-6e5f-4613-9761-0a6cfaee96cd",
             "name": "Healthz",
-            "url": "localhost:5000/healthz",
+            "url": "{{HOST}}:{{PORT}}/healthz",
             "method": "GET",
             "sortNum": 60000,
             "created": "2023-02-27T23:41:20.401Z",
-            "modified": "2023-02-27T23:41:34.595Z",
+            "modified": "2023-02-28T13:05:23.914Z",
             "headers": [],
             "params": [],
             "tests": []
@@ -117,11 +117,11 @@
             "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
             "containerId": "65650062-6e5f-4613-9761-0a6cfaee96cd",
             "name": "Readiness",
-            "url": "localhost:5000/readiness",
+            "url": "{{HOST}}:{{PORT}}/readiness",
             "method": "GET",
             "sortNum": 70000,
             "created": "2023-02-27T23:41:37.440Z",
-            "modified": "2023-02-27T23:42:03.884Z",
+            "modified": "2023-02-28T13:05:27.460Z",
             "headers": [],
             "params": [],
             "tests": []
