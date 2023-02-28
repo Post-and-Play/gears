@@ -10,6 +10,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Login godoc
+// @Summary      login
+// @Description  With params login
+// @Tags         login
+// @Accept       json
+// @Produce      json
+// @Param        login  body  models.Login  true  "Login Model"
+// @Success      200  {object}  models.Login
+// @Failure      400  {object}  map[string][]string
+// @Failure      403  {object}  map[string][]string
+// @Failure      404  {object}  map[string][]string
+// @Router       /login [post]
 func Login(c *gin.Context) {
 	var login models.Login
 

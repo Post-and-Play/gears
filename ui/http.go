@@ -8,6 +8,8 @@ import (
 
 	"github.com/Post-and-Play/gears/services"
 	"github.com/gin-gonic/gin"
+
+	docs "github.com/Post-and-Play/gears/docs"
 )
 
 func Router() *gin.Engine {
@@ -39,7 +41,13 @@ func RunServer() {
 }
 
 func handleRoutes(r *gin.Engine) {
+	docs.SwaggerInfo.BasePath = "/"
+
 	for _, route := range healthCheck {
+		r.Handle(route.Method, route.Path, route.Handler)
+	}
+
+	for _, route := range swagg {
 		r.Handle(route.Method, route.Path, route.Handler)
 	}
 

@@ -1,0 +1,224 @@
+definitions:
+  models.Login:
+    properties:
+      mail:
+        type: string
+      password:
+        type: string
+    type: object
+  models.User:
+    properties:
+      birth_date:
+        type: string
+      id:
+        type: integer
+      mail:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      user_name:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /games:
+    get:
+      consumes:
+      - application/json
+      description: Route to show a game
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: Show a game
+      tags:
+      - games
+  /healthz:
+    get:
+      consumes:
+      - application/json
+      description: Route to health check
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Healthcheck
+      tags:
+      - health
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: With params login
+      parameters:
+      - description: Login Model
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/models.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Login'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: login
+      tags:
+      - login
+  /readiness:
+    get:
+      consumes:
+      - application/json
+      description: Route to readiness check
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Healthcheck
+      tags:
+      - health
+  /users:
+    delete:
+      consumes:
+      - application/json
+      description: Route to show an user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: Show an user
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: Route to show an user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: Show an user
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: With params creates a new user
+      parameters:
+      - description: User Model
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+        "409":
+          description: Conflict
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: Creates a new user
+      tags:
+      - users
+swagger: "2.0"

@@ -8,8 +8,21 @@ import (
 	"github.com/Post-and-Play/gears/models"
 	"github.com/Post-and-Play/gears/services"
 	"github.com/gin-gonic/gin"
+	_ "github.com/swaggo/swag/example/celler/httputil"
+	_ "github.com/swaggo/swag/example/celler/model"
 )
 
+// CreateUser godoc
+// @Summary      Creates a new user
+// @Description  With params creates a new user
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Param        user  body  models.User  true  "User Model"
+// @Success      200  {object}  models.User
+// @Failure      400  {object}  map[string][]string
+// @Failure      409  {object}  map[string][]string
+// @Router       /users [post]
 func CreateUser(c *gin.Context) {
 	var user models.User
 
@@ -44,6 +57,15 @@ func CreateUser(c *gin.Context) {
 	c.JSON(http.StatusOK, user)
 }
 
+// GetUser godoc
+// @Summary      Show an user
+// @Description  Route to show an user
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  models.User
+// @Failure      404  {object}  map[string][]string
+// @Router       /users [get]
 func GetUser(c *gin.Context) {
 	var user models.User
 	id := c.Query("id")
@@ -59,6 +81,17 @@ func GetUser(c *gin.Context) {
 	c.JSON(http.StatusOK, user)
 }
 
+// DeleteUser godoc
+// @Summary      Show an user
+// @Description  Route to show an user
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  string
+// @Failure      400  {object}  map[string][]string
+// @Failure      404  {object}  map[string][]string
+// @Failure      500  {object}  map[string][]string
+// @Router       /users [delete]
 func DeleteUser(c *gin.Context) {
 	var user models.User
 	id := c.Query("id")
