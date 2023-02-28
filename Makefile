@@ -10,5 +10,8 @@ build:
 swag:
 	swag init --parseDependency  --parseInternal --parseDepth 1
 
+compose:
+	docker-compose up -d
+
 run:
 	go run main.go
