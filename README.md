@@ -4,16 +4,11 @@ Backend structure for Post and Play web application
 
 ## Version
 
-v0.2
+v0.3
 
 ### Changelog
 
-- Http server improvement
-- User and login fixes
-- Healthcheck
-- Doc improvement
-- Go update version
-- Docker assert
+- Game base structure
 
 ## Docs
 
