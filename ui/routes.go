@@ -51,3 +51,11 @@ var login = []Route{
 		controllers.Login,
 	},
 }
+
+var game = []Route{
+	{
+		"/game",
+		http.MethodGet,
+		controllers.GetGame,
+	},
+}
