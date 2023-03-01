@@ -1,4 +1,25 @@
 definitions:
+  models.Game:
+    properties:
+      cover_adr:
+        type: string
+      favorite_count:
+        type: string
+      genders:
+        additionalProperties:
+          items:
+            type: string
+          type: array
+        type: object
+      id:
+        type: integer
+      name:
+        type: string
+      ranking_position:
+        type: string
+      rating:
+        type: string
+    type: object
   models.Login:
     properties:
       mail:
@@ -35,7 +56,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.User'
+            $ref: '#/definitions/models.Game'
         "404":
           description: Not Found
           schema:
@@ -45,6 +66,43 @@ paths:
               type: array
             type: object
       summary: Show a game
+      tags:
+      - games
+    post:
+      consumes:
+      - application/json
+      description: With params creates a new game
+      parameters:
+      - description: Game Model
+        in: body
+        name: game
+        required: true
+        schema:
+          $ref: '#/definitions/models.Game'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Game'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+        "409":
+          description: Conflict
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: Creates a new game
       tags:
       - games
   /healthz:
