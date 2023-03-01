@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "gears",
-    "dateExported": "2023-02-28T13:05:38.670Z",
+    "dateExported": "2023-03-01T01:11:01.197Z",
     "version": "1.1",
     "folders": [
         {
@@ -17,6 +17,13 @@
             "containerId": "",
             "created": "2023-02-27T23:24:10.768Z",
             "sortNum": 20000
+        },
+        {
+            "_id": "7faeb5b8-b98f-48de-bf8d-6ab2ad09a65e",
+            "name": "games",
+            "containerId": "",
+            "created": "2023-03-01T00:57:12.000Z",
+            "sortNum": 30000
         }
     ],
     "requests": [
@@ -25,16 +32,35 @@
             "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
             "containerId": "1ff83313-210c-4c23-8100-254dbe067214",
             "name": "Create User",
-            "url": "{{HOST}}:{{PORT}}/users",
+            "url": "{{HOST}}:{{PORT}}/api/users",
             "method": "POST",
             "sortNum": 10000,
             "created": "2023-02-24T01:09:21.134Z",
-            "modified": "2023-02-28T13:04:59.615Z",
+            "modified": "2023-02-28T14:15:49.701Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"name\":\"jonas brothers\",\n  \"user_name\":\"12345\",\n  \"password\":\"123456\",\n  \"mail\":\"jv@bla.com\",\n  \"birth_date\":\"01/08/2002\"\n}",
+                "raw": "{\n  \"name\":\"jonas brothers\",\n  \"user_name\":\"12345\",\n  \"password\":\"123456\",\n  \"mail\":\"cleyton_rasta05@bla.com\",\n  \"birth_date\":\"01/08/2002\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "d7ffc074-7515-470a-b52e-edb48394e6de",
+            "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
+            "containerId": "7faeb5b8-b98f-48de-bf8d-6ab2ad09a65e",
+            "name": "Create Game",
+            "url": "{{HOST}}:{{PORT}}/api/games",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-03-01T00:57:16.956Z",
+            "modified": "2023-03-01T01:10:31.256Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"Mineirinho Adventures\",\n  \"genders\":\"action,adventure\",\n  \"cover_adr\":\"path/path\",\n  \"rating\":\"0\",\n  \"favorite_count\":\"0\",\n  \"ranking_position\":\"1\"\n}",
                 "form": []
             },
             "tests": []
@@ -44,16 +70,36 @@
             "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
             "containerId": "1ff83313-210c-4c23-8100-254dbe067214",
             "name": "Get User",
-            "url": "{{HOST}}:{{PORT}}/users?id=2",
+            "url": "{{HOST}}:{{PORT}}/api/users?id=4",
             "method": "GET",
             "sortNum": 20000,
             "created": "2023-02-24T01:09:33.215Z",
-            "modified": "2023-02-28T13:05:08.793Z",
+            "modified": "2023-02-28T13:45:53.710Z",
             "headers": [],
             "params": [
                 {
                     "name": "id",
-                    "value": "2",
+                    "value": "4",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "2b20e1b8-f996-4974-8f54-cf95263b7b85",
+            "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
+            "containerId": "7faeb5b8-b98f-48de-bf8d-6ab2ad09a65e",
+            "name": "Get Game",
+            "url": "{{HOST}}:{{PORT}}/api/games?id=1",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-03-01T00:57:21.532Z",
+            "modified": "2023-03-01T01:06:51.263Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "1",
                     "isPath": false
                 }
             ],
@@ -64,11 +110,11 @@
             "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
             "containerId": "1ff83313-210c-4c23-8100-254dbe067214",
             "name": "Delete User",
-            "url": "{{HOST}}:{{PORT}}/users?id=2",
+            "url": "{{HOST}}:{{PORT}}/api/users?id=2",
             "method": "DELETE",
             "sortNum": 40000,
             "created": "2023-02-24T01:10:36.620Z",
-            "modified": "2023-02-28T13:05:13.782Z",
+            "modified": "2023-03-01T01:06:30.152Z",
             "headers": [],
             "params": [
                 {
@@ -84,16 +130,16 @@
             "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
             "containerId": "1ff83313-210c-4c23-8100-254dbe067214",
             "name": "Login",
-            "url": "{{HOST}}:{{PORT}}/login",
+            "url": "{{HOST}}:{{PORT}}/api/login",
             "method": "POST",
             "sortNum": 50000,
             "created": "2023-02-24T01:11:05.606Z",
-            "modified": "2023-02-28T13:05:19.210Z",
+            "modified": "2023-02-28T13:47:21.176Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"mail\":\"jv@bla.com\",\n  \"password\":\"123456\"\n}",
+                "raw": "{\n  \"mail\":\"cleyton_rasta05@bla.com\",\n  \"password\":\"123456\"\n}",
                 "form": []
             },
             "tests": []
