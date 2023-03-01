@@ -34,6 +34,9 @@ Backend structure for Post and Play web application
 ### Changelog
 
 * Game base structure
+* Get and Create game
+* Swagger implementation
+* Docs bump
 
 ## Docs
 
