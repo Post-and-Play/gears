@@ -1,0 +1,16 @@
+{
+    "client": "Thunder Client",
+    "environmentName": "gears",
+    "dateExported": "2023-02-28T13:05:45.329Z",
+    "version": "1.0",
+    "variables": [
+        {
+            "name": "HOST",
+            "value": "localhost"
+        },
+        {
+            "name": "PORT",
+            "value": "5000"
+        }
+    ]
+}

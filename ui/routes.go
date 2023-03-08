@@ -5,6 +5,9 @@ import (
 
 	"github.com/Post-and-Play/gears/controllers"
 	"github.com/gin-gonic/gin"
+
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 type Route struct {
@@ -23,6 +26,14 @@ var healthCheck = []Route{
 		"readiness",
 		http.MethodGet,
 		controllers.Readiness,
+	},
+}
+
+var swagg = []Route{
+	{
+		"/swagger/*any",
+		http.MethodGet,
+		ginSwagger.WrapHandler(swaggerfiles.Handler),
 	},
 }
 
@@ -49,5 +60,18 @@ var login = []Route{
 		"/login",
 		http.MethodPost,
 		controllers.Login,
+	},
+}
+
+var game = []Route{
+	{
+		"/games",
+		http.MethodGet,
+		controllers.GetGame,
+	},
+	{
+		"/games",
+		http.MethodPost,
+		controllers.CreateGame,
 	},
 }
