@@ -75,3 +75,29 @@ var game = []Route{
 		controllers.CreateGame,
 	},
 }
+
+var favorite = []Route{
+	{
+		"/favorites",
+		http.MethodGet,
+		controllers.GetGame,
+	},
+	{
+		"/favorites",
+		http.MethodPost,
+		controllers.CreateGame,
+	},
+}
+
+var social = []Route{
+	{
+		"/social",
+		http.MethodGet,
+		controllers.GetGame,
+	},
+	{
+		"/social",
+		http.MethodPost,
+		controllers.CreateGame,
+	},
+}

@@ -29,14 +29,11 @@ Backend structure for Post and Play web application
 
 ## Version
 
-* v0.3
+* v0.4
 
 ### Changelog
 
-* Game base structure
-* Get and Create game
-* Swagger implementation
-* Docs bump
+* Game Related Changes
 
 ## Docs
 
