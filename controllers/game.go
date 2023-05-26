@@ -21,6 +21,7 @@ import (
 // @Success      200  {object}  models.Game
 // @Failure      400  {object}  map[string][]string
 // @Failure      409  {object}  map[string][]string
+// @Failure      500  {object}  map[string][]string
 // @Router       /games [post]
 func CreateGame(c *gin.Context) {
 	var game models.Game

@@ -39,11 +39,15 @@ func Login(c *gin.Context) {
 
 	var user models.User
 
-	if infra.DB.Where("mail = $1", login.Mail).Find(&user).RowsAffected > 0 {
+	if infra.DB.Where("mail = $1", login.Login).Find(&user).RowsAffected > 0 {
 		if user.ID == 0 {
-			log.Default().Print("Wrong e-mail")
-			c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
-			return
+			if infra.DB.Where("user_name = $1", login.Login).Find(&user).RowsAffected > 0 {
+				if user.ID == 0 {
+					log.Default().Print("Wrong login")
+					c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
+					return
+				}
+			}
 		}
 	}
 
