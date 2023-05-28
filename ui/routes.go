@@ -111,7 +111,7 @@ var review = []Route{
 		controllers.ListLastReviews,
 	},
 	{
-		"/reviews/:user_id",
+		"/reviews/user",
 		http.MethodGet,
 		controllers.ListReviewsByUser,
 	},

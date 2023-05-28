@@ -256,6 +256,94 @@ paths:
       summary: Creates a new review
       tags:
       - reviews
+  /reviews:
+    delete:
+      consumes:
+      - application/json
+      description: Route to show an review
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: Show an review
+      tags:
+      - reviews
+    get:
+      consumes:
+      - application/json
+      description: Route to show last reviews
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Review'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: Show last reviews
+      tags:
+      - reviews
+  /reviews/user:
+    get:
+      consumes:
+      - application/json
+      description: Route to show last reviews by user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Review'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: Show last reviews by user
+      tags:
+      - reviews
   /users:
     delete:
       consumes:
