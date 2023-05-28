@@ -89,15 +89,30 @@ var favorite = []Route{
 	},
 }
 
-var social = []Route{
+var review = []Route{
 	{
-		"/social",
-		http.MethodGet,
-		controllers.GetGame,
+		"/review",
+		http.MethodPost,
+		controllers.CreateReview,
 	},
 	{
-		"/social",
-		http.MethodPost,
-		controllers.CreateGame,
+		"/review",
+		http.MethodDelete,
+		controllers.DeleteReview,
+	},
+	{
+		"/review",
+		http.MethodGet,
+		controllers.GetReview,
+	},
+	{
+		"/reviews",
+		http.MethodGet,
+		controllers.ListLastReviews,
+	},
+	{
+		"/reviews/user",
+		http.MethodGet,
+		controllers.ListReviewsByUser,
 	},
 }

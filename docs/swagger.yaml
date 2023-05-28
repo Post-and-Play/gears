@@ -3,29 +3,36 @@ definitions:
     properties:
       cover_adr:
         type: string
-      favorite_count:
-        type: string
       genders:
-        additionalProperties:
-          items:
-            type: string
-          type: array
-        type: object
+        type: string
       id:
         type: integer
       name:
         type: string
-      ranking_position:
-        type: string
       rating:
-        type: string
+        type: number
+      reviews:
+        type: integer
     type: object
   models.Login:
     properties:
-      mail:
+      login:
         type: string
       password:
         type: string
+    type: object
+  models.Review:
+    properties:
+      game_id:
+        type: integer
+      grade:
+        type: number
+      id:
+        type: integer
+      opinion:
+        type: string
+      user_id:
+        type: integer
     type: object
   models.User:
     properties:
@@ -96,6 +103,14 @@ paths:
             type: object
         "409":
           description: Conflict
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+        "500":
+          description: Internal Server Error
           schema:
             additionalProperties:
               items:
@@ -181,6 +196,154 @@ paths:
       summary: Healthcheck
       tags:
       - health
+  /review:
+    get:
+      consumes:
+      - application/json
+      description: Route to show a review
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Review'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: Show a review
+      tags:
+      - reviews
+    post:
+      consumes:
+      - application/json
+      description: With params creates a new review
+      parameters:
+      - description: Review Model
+        in: body
+        name: review
+        required: true
+        schema:
+          $ref: '#/definitions/models.Review'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Review'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: Creates a new review
+      tags:
+      - reviews
+  /reviews:
+    delete:
+      consumes:
+      - application/json
+      description: Route to show an review
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: Show an review
+      tags:
+      - reviews
+    get:
+      consumes:
+      - application/json
+      description: Route to show last reviews
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Review'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: Show last reviews
+      tags:
+      - reviews
+  /reviews/user:
+    get:
+      consumes:
+      - application/json
+      description: Route to show last reviews by user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Review'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: Show last reviews by user
+      tags:
+      - reviews
   /users:
     delete:
       consumes:
