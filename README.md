@@ -29,7 +29,7 @@ Backend structure for Post and Play web application
 
 ## Version
 
-* v0.6
+* v0.7
 
 ## Docs
 
