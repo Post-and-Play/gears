@@ -19,25 +19,26 @@ func Router() *gin.Engine {
 }
 
 func RunServer(env string) {
-	var adr string
+	var port string
+
+	host := os.Getenv("GIN_HOST")
 
 	if env == "PROD" {
-		adr = os.Getenv("PROD_HOST")
+		port = os.Getenv("GIN_PORT")
 	} else {
-		host := os.Getenv("GIN_HOST")
-		port := os.Getenv("GIN_PORT")
-		adr = net.JoinHostPort(host, port)
+		port = os.Getenv("PORT")
+
 	}
 
 	done := services.MakeDoneSignal()
 
 	server := &http.Server{
-		Addr:    adr,
+		Addr:    net.JoinHostPort(host, port),
 		Handler: Router(),
 	}
 
 	go func() {
-		log.Printf("Server started at %s", adr)
+		log.Printf("Server started at %s:%s", host, port)
 
 		if err := server.ListenAndServe(); err != nil {
 			log.Panicf("Error trying to start server: %+v", err)
