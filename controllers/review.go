@@ -117,8 +117,8 @@ func ListReviewsByUser(c *gin.Context) {
 }
 
 // DeleteReview godoc
-// @Summary      Show an review
-// @Description  Route to show an review
+// @Summary      Delete a review
+// @Description  Route to delete a review
 // @Tags         reviews
 // @Accept       json
 // @Produce      json
@@ -126,7 +126,7 @@ func ListReviewsByUser(c *gin.Context) {
 // @Failure      400  {object}  map[string][]string
 // @Failure      404  {object}  map[string][]string
 // @Failure      500  {object}  map[string][]string
-// @Router       /reviews [delete]
+// @Router       /review [delete]
 func DeleteReview(c *gin.Context) {
 	var review models.Review
 	id := c.Query("id")

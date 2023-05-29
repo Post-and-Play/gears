@@ -33,7 +33,5 @@ func DatabaseConnect() {
 }
 
 func autoMigrateModels() {
-	DB.AutoMigrate(&models.User{})
-	DB.AutoMigrate(&models.Game{})
-	DB.AutoMigrate(&models.Review{})
+	DB.AutoMigrate(&models.User{}, &models.Game{}, &models.Review{}, &models.Like{})
 }

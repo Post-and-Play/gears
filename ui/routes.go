@@ -116,3 +116,26 @@ var review = []Route{
 		controllers.ListReviewsByUser,
 	},
 }
+
+var like = []Route{
+	{
+		"/like",
+		http.MethodPost,
+		controllers.LikeReview,
+	},
+	{
+		"/like",
+		http.MethodDelete,
+		controllers.UnlikeReview,
+	},
+	{
+		"/likes",
+		http.MethodGet,
+		controllers.GetLikesByUser,
+	},
+	{
+		"/likes",
+		http.MethodGet,
+		controllers.GetLikesByReview,
+	},
+}
