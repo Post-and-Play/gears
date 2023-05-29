@@ -129,12 +129,12 @@ var like = []Route{
 		controllers.UnlikeReview,
 	},
 	{
-		"/likes",
+		"/likes/user",
 		http.MethodGet,
 		controllers.GetLikesByUser,
 	},
 	{
-		"/likes",
+		"/likes/review",
 		http.MethodGet,
 		controllers.GetLikesByReview,
 	},
