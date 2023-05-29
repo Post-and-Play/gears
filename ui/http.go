@@ -21,8 +21,8 @@ func Router() *gin.Engine {
 func RunServer() {
 	var port string
 
-	host := os.Getenv("GIN_HOST")
-	port = os.Getenv("GIN_PORT")
+	host := os.Getenv("HOST")
+	port = os.Getenv("PORT")
 
 	done := services.MakeDoneSignal()
 

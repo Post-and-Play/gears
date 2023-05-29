@@ -1,8 +1,6 @@
 package main
 
 import (
-	"os"
-
 	"github.com/Post-and-Play/gears/infra"
 	"github.com/Post-and-Play/gears/ui"
 	"github.com/joho/godotenv"
@@ -12,13 +10,6 @@ import (
 
 func main() {
 	godotenv.Load(".env")
-
-	env := os.Getenv("APP_ENV")
-	if env == "PROD" {
-		infra.ProdDatabaseConnect()
-	} else {
-		infra.DevDatabaseConnect()
-	}
-
+	infra.DatabaseConnect()
 	ui.RunServer()
 }
