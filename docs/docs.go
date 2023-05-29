@@ -941,6 +941,9 @@ const docTemplate = `{
                 "cover_adr": {
                     "type": "string"
                 },
+                "description": {
+                    "type": "string"
+                },
                 "genders": {
                     "type": "string"
                 },
@@ -1013,6 +1016,9 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "birth_date": {
+                    "type": "string"
+                },
+                "description": {
                     "type": "string"
                 },
                 "discord_user": {

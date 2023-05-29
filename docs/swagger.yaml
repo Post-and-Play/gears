@@ -12,6 +12,8 @@ definitions:
     properties:
       cover_adr:
         type: string
+      description:
+        type: string
       genders:
         type: string
       id:
@@ -59,6 +61,8 @@ definitions:
   models.User:
     properties:
       birth_date:
+        type: string
+      description:
         type: string
       discord_user:
         type: string
