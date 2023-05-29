@@ -33,7 +33,14 @@ func DevDatabaseConnect() {
 }
 
 func ProdDatabaseConnect() {
-	conn := os.Getenv("DB_PROD_CONN")
+	host := os.Getenv("DB_HOST")
+	user := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASS")
+	dbname := os.Getenv("DB_NAME")
+	dbport := os.Getenv("DB_PORT")
+	ssl := os.Getenv("SSL")
+
+	conn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s", host, user, password, dbname, dbport, ssl)
 
 	DB, err = gorm.Open(postgres.New(postgres.Config{
 		DriverName: "cloudsqlpostgres",
@@ -49,5 +56,3 @@ func ProdDatabaseConnect() {
 func autoMigrateModels() {
 	DB.AutoMigrate(&models.User{}, &models.Game{}, &models.Review{}, &models.Like{})
 }
-
-//teste
