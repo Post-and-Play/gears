@@ -18,7 +18,7 @@ type Route struct {
 
 var healthCheck = []Route{
 	{
-		"health",
+		"healthz",
 		http.MethodGet,
 		controllers.Health,
 	},
