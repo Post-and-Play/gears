@@ -20,8 +20,8 @@ func Router() *gin.Engine {
 
 func RunServer() {
 	done := services.MakeDoneSignal()
-	host := os.Getenv("HOST")
-	port := os.Getenv("PORT")
+	host := os.Getenv("GIN_HOST")
+	port := os.Getenv("GIN_PORT")
 
 	server := &http.Server{
 		Addr:    net.JoinHostPort(host, port),
