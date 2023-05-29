@@ -98,7 +98,7 @@ func UnlikeReview(c *gin.Context) {
 	id := c.Query("id")
 
 	infra.DB.First(&like, id)
-	if like.ID == 0 {
+	if like.Id == 0 {
 		log.Default().Print("like not found")
 		c.JSON(http.StatusNotFound, gin.H{"Not found": "Like not found"})
 	}

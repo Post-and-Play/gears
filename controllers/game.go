@@ -39,7 +39,7 @@ func CreateGame(c *gin.Context) {
 	}
 
 	if infra.DB.Where("name = $1", game.Name).Find(&game).RowsAffected > 0 {
-		if game.ID != 0 {
+		if game.Id != 0 {
 			log.Default().Print("Game already exists")
 			c.JSON(http.StatusConflict, game)
 			return
@@ -70,7 +70,7 @@ func GetGame(c *gin.Context) {
 
 	infra.DB.First(&game, id)
 
-	if game.ID == 0 {
+	if game.Id == 0 {
 		log.Default().Print("Game not found")
 		c.JSON(http.StatusNotFound, gin.H{"Not found": "Game not found"})
 		return

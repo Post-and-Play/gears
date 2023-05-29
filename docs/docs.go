@@ -16,6 +16,133 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/follow": {
+            "post": {
+                "description": "With params follows a user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "follow"
+                ],
+                "summary": "Follow a user",
+                "parameters": [
+                    {
+                        "description": "Follow Model",
+                        "name": "follow",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Follow"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Follow"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Route to unfollow a user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "follow"
+                ],
+                "summary": "Unfollow a user",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/games": {
             "get": {
                 "description": "Route to show a game",
@@ -794,6 +921,20 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "models.Follow": {
+            "type": "object",
+            "properties": {
+                "followed_id": {
+                    "type": "integer"
+                },
+                "following_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
         "models.Game": {
             "type": "object",
             "properties": {
@@ -814,6 +955,9 @@ const docTemplate = `{
                 },
                 "reviews": {
                     "type": "integer"
+                },
+                "top_adr": {
+                    "type": "string"
                 }
             }
         },
@@ -854,6 +998,9 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "image_adr": {
+                    "type": "string"
+                },
                 "opinion": {
                     "type": "string"
                 },
@@ -868,6 +1015,21 @@ const docTemplate = `{
                 "birth_date": {
                     "type": "string"
                 },
+                "discord_user": {
+                    "type": "string"
+                },
+                "epic_user": {
+                    "type": "string"
+                },
+                "followed": {
+                    "type": "integer"
+                },
+                "following": {
+                    "type": "integer"
+                },
+                "github_user": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -878,6 +1040,12 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "password": {
+                    "type": "string"
+                },
+                "steam_user": {
+                    "type": "string"
+                },
+                "twitch_user": {
                     "type": "string"
                 },
                 "user_name": {

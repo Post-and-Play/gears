@@ -25,7 +25,7 @@ func DeleteUserMock() {
 }
 
 func GameMock() {
-	game := models.Game{ID: 1, Name: "r6", Genders: "sasuke-naruto", CoverAdr: "xpto", Rating: 3.2}
+	game := models.Game{Id: 1, Name: "r6", Genders: "sasuke-naruto", CoverAdr: "xpto", Rating: 3.2}
 	infra.DB.Create(game)
 }
 
