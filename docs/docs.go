@@ -1048,7 +1048,13 @@ const docTemplate = `{
                 "password": {
                     "type": "string"
                 },
+                "photo_adr": {
+                    "type": "string"
+                },
                 "steam_user": {
+                    "type": "string"
+                },
+                "top_adr": {
                     "type": "string"
                 },
                 "twitch_user": {
