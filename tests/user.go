@@ -14,7 +14,7 @@ import (
 )
 
 func TestGetUser(t *testing.T) {
-	infra.DatabaseConnect()
+	infra.DevDatabaseConnect()
 	UserMock()
 	defer DeleteUserMock()
 

@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	_ "github.com/GoogleCloudPlatform/cloudsql-proxy/proxy/dialers/postgres"
 	"github.com/Post-and-Play/gears/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -15,7 +16,7 @@ var (
 	err error
 )
 
-func DatabaseConnect() {
+func DevDatabaseConnect() {
 	host := os.Getenv("DB_HOST")
 	user := os.Getenv("DB_USER")
 	password := os.Getenv("DB_PASS")
@@ -26,9 +27,22 @@ func DatabaseConnect() {
 	conn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s", host, user, password, dbname, dbport, ssl)
 	DB, err = gorm.Open(postgres.Open(conn))
 	if err != nil {
-		log.Panic("Database connection error")
+		log.Panic("Local database connection error")
 	}
+	autoMigrateModels()
+}
 
+func ProdDatabaseConnect() {
+	conn := os.Getenv("DB_PROD_CONN")
+
+	DB, err = gorm.Open(postgres.New(postgres.Config{
+		DriverName: "cloudsqlpostgres",
+		DSN:        conn,
+	}))
+
+	if err != nil {
+		log.Panic("Prod database connection error")
+	}
 	autoMigrateModels()
 }
 
