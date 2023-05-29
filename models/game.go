@@ -7,6 +7,7 @@ type Game struct {
 	Name     string  `json:"name" validate:"nonzero"`
 	Genders  string  `json:"genders" validate:"nonzero"`
 	CoverAdr string  `json:"cover_adr" validate:"nonzero"`
+	TopAdr   string  `json:"top_adr" validate:"nonzero"`
 	Rating   float64 `json:"rating" validate:"nonzero"`
 	Reviews  int     `json:"reviews" validate:"nonzero"`
 }
