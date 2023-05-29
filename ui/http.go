@@ -18,17 +18,11 @@ func Router() *gin.Engine {
 	return r
 }
 
-func RunServer(env string) {
+func RunServer() {
 	var port string
 
 	host := os.Getenv("GIN_HOST")
-
-	if env == "PROD" {
-		port = os.Getenv("GIN_PORT")
-	} else {
-		port = os.Getenv("PORT")
-
-	}
+	port = os.Getenv("GIN_PORT")
 
 	done := services.MakeDoneSignal()
 

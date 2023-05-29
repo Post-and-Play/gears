@@ -20,5 +20,5 @@ func main() {
 		infra.DevDatabaseConnect()
 	}
 
-	ui.RunServer(env)
+	ui.RunServer()
 }
