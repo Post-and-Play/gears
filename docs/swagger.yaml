@@ -1,4 +1,13 @@
 definitions:
+  models.Follow:
+    properties:
+      followed_id:
+        type: integer
+      following_id:
+        type: integer
+      id:
+        type: integer
+    type: object
   models.Game:
     properties:
       cover_adr:
@@ -13,6 +22,8 @@ definitions:
         type: number
       reviews:
         type: integer
+      top_adr:
+        type: string
     type: object
   models.Like:
     properties:
@@ -38,6 +49,8 @@ definitions:
         type: number
       id:
         type: integer
+      image_adr:
+        type: string
       opinion:
         type: string
       user_id:
@@ -47,6 +60,16 @@ definitions:
     properties:
       birth_date:
         type: string
+      discord_user:
+        type: string
+      epic_user:
+        type: string
+      followed:
+        type: integer
+      following:
+        type: integer
+      github_user:
+        type: string
       id:
         type: integer
       mail:
@@ -55,12 +78,100 @@ definitions:
         type: string
       password:
         type: string
+      steam_user:
+        type: string
+      twitch_user:
+        type: string
       user_name:
         type: string
     type: object
 info:
   contact: {}
 paths:
+  /follow:
+    delete:
+      consumes:
+      - application/json
+      description: Route to unfollow a user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: Unfollow a user
+      tags:
+      - follow
+    post:
+      consumes:
+      - application/json
+      description: With params follows a user
+      parameters:
+      - description: Follow Model
+        in: body
+        name: follow
+        required: true
+        schema:
+          $ref: '#/definitions/models.Follow'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Follow'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+        "409":
+          description: Conflict
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: Follow a user
+      tags:
+      - follow
   /games:
     get:
       consumes:

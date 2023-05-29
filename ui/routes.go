@@ -76,19 +76,6 @@ var game = []Route{
 	},
 }
 
-var favorite = []Route{
-	{
-		"/favorites",
-		http.MethodGet,
-		controllers.GetGame,
-	},
-	{
-		"/favorites",
-		http.MethodPost,
-		controllers.CreateGame,
-	},
-}
-
 var review = []Route{
 	{
 		"/review",
@@ -137,5 +124,18 @@ var like = []Route{
 		"/likes/review",
 		http.MethodGet,
 		controllers.GetLikesByReview,
+	},
+}
+
+var follow = []Route{
+	{
+		"/follow",
+		http.MethodPost,
+		controllers.Follow,
+	},
+	{
+		"/unfollow",
+		http.MethodDelete,
+		controllers.Unfollow,
 	},
 }

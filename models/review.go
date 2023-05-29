@@ -3,7 +3,7 @@ package models
 import "gopkg.in/validator.v2"
 
 type Review struct {
-	ID       uint    `json:"id" gorm:"primaryKey;autoIncrement"`
+	Id       uint    `json:"id" gorm:"primaryKey;autoIncrement"`
 	UserId   uint    `json:"user_id" validate:"nonzero"`
 	GameId   uint    `json:"game_id" validate:"nonzero"`
 	Grade    float64 `json:"grade" validate:"nonzero"`

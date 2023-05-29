@@ -11,6 +11,8 @@ type User struct {
 	Password    string `json:"password" validate:"nonzero"`
 	Mail        string `json:"mail" validate:"nonzero"`
 	BirthDate   string `json:"birth_date" validate:"nonzero"`
+	Following   int    `json:"following"`
+	Followed    int    `json:"followed"`
 	EpicUser    string `json:"epic_user"`
 	SteamUser   string `json:"steam_user"`
 	DiscordUser string `json:"discord_user"`

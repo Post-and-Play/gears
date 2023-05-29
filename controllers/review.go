@@ -59,7 +59,7 @@ func GetReview(c *gin.Context) {
 
 	infra.DB.First(&review, id)
 
-	if review.ID == 0 {
+	if review.Id == 0 {
 		log.Default().Print("Review not found")
 		c.JSON(http.StatusNotFound, gin.H{"Not found": "Review not found"})
 		return
@@ -82,7 +82,7 @@ func ListLastReviews(c *gin.Context) {
 
 	infra.DB.Find(reviews).Limit(30)
 
-	if reviews[0].ID == 0 {
+	if reviews[0].Id == 0 {
 		log.Default().Print("Reviews not found")
 		c.JSON(http.StatusNotFound, gin.H{"Not found": "Reviews not found"})
 		return
@@ -107,7 +107,7 @@ func ListReviewsByUser(c *gin.Context) {
 
 	infra.DB.Find(reviews).Where("user_id = $1", id).Limit(30)
 
-	if reviews[0].ID == 0 {
+	if reviews[0].Id == 0 {
 		log.Default().Print("Reviews not found")
 		c.JSON(http.StatusNotFound, gin.H{"Not found": "Reviews not found"})
 		return
@@ -132,7 +132,7 @@ func DeleteReview(c *gin.Context) {
 	id := c.Query("id")
 
 	infra.DB.First(&review, id)
-	if review.ID == 0 {
+	if review.Id == 0 {
 		log.Default().Print("Review not found")
 		c.JSON(http.StatusNotFound, gin.H{"Not found": "Review not found"})
 	}
