@@ -139,3 +139,11 @@ var follow = []Route{
 		controllers.Unfollow,
 	},
 }
+
+var mail = []Route{
+	{
+		"/mail",
+		http.MethodPost,
+		controllers.SendMail,
+	},
+}

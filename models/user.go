@@ -11,6 +11,9 @@ type User struct {
 	Password    string `json:"password" validate:"nonzero"`
 	Mail        string `json:"mail" validate:"nonzero"`
 	BirthDate   string `json:"birth_date" validate:"nonzero"`
+	Description string `json:"description" validate:"nonzero"`
+	PhotoAdr    string `json:"photo_adr" validate:"nonzero"`
+	TopAdr      string `json:"top_adr" validate:"nonzero"`
 	Following   int    `json:"following"`
 	Followed    int    `json:"followed"`
 	EpicUser    string `json:"epic_user"`

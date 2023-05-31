@@ -1,4 +1,9 @@
 definitions:
+  models.Edwiges:
+    properties:
+      mail:
+        type: string
+    type: object
   models.Follow:
     properties:
       followed_id:
@@ -11,6 +16,8 @@ definitions:
   models.Game:
     properties:
       cover_adr:
+        type: string
+      description:
         type: string
       genders:
         type: string
@@ -60,6 +67,8 @@ definitions:
     properties:
       birth_date:
         type: string
+      description:
+        type: string
       discord_user:
         type: string
       epic_user:
@@ -78,7 +87,11 @@ definitions:
         type: string
       password:
         type: string
+      photo_adr:
+        type: string
       steam_user:
+        type: string
+      top_adr:
         type: string
       twitch_user:
         type: string
@@ -423,6 +436,44 @@ paths:
       summary: login
       tags:
       - login
+  /mail:
+    post:
+      consumes:
+      - application/json
+      description: With params sends a mail
+      parameters:
+      - description: Edwiges Model
+        in: body
+        name: mail
+        required: true
+        schema:
+          $ref: '#/definitions/models.Edwiges'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Edwiges'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: Sends a mail
+      tags:
+      - mail
   /readiness:
     get:
       consumes:

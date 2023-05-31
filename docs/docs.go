@@ -524,6 +524,64 @@ const docTemplate = `{
                 }
             }
         },
+        "/mail": {
+            "post": {
+                "description": "With params sends a mail",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mail"
+                ],
+                "summary": "Sends a mail",
+                "parameters": [
+                    {
+                        "description": "Edwiges Model",
+                        "name": "mail",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Edwiges"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Edwiges"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/readiness": {
             "get": {
                 "description": "Route to readiness check",
@@ -921,6 +979,14 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "models.Edwiges": {
+            "type": "object",
+            "properties": {
+                "mail": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Follow": {
             "type": "object",
             "properties": {
@@ -939,6 +1005,9 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "cover_adr": {
+                    "type": "string"
+                },
+                "description": {
                     "type": "string"
                 },
                 "genders": {
@@ -1015,6 +1084,9 @@ const docTemplate = `{
                 "birth_date": {
                     "type": "string"
                 },
+                "description": {
+                    "type": "string"
+                },
                 "discord_user": {
                     "type": "string"
                 },
@@ -1042,7 +1114,13 @@ const docTemplate = `{
                 "password": {
                     "type": "string"
                 },
+                "photo_adr": {
+                    "type": "string"
+                },
                 "steam_user": {
+                    "type": "string"
+                },
+                "top_adr": {
                     "type": "string"
                 },
                 "twitch_user": {
