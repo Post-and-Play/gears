@@ -7,8 +7,9 @@ type Review struct {
 	UserId   uint    `json:"user_id" validate:"nonzero"`
 	GameId   uint    `json:"game_id" validate:"nonzero"`
 	Grade    float64 `json:"grade" validate:"nonzero"`
-	ImageAdr string  `json:"image_adr" validate:"nonzero"`
-	Opinion  string  `json:"opinion"`
+	ImageAdr string  `json:"image_adr"`
+	Opinion  string  `json:"opinion" validate:"nonzero"`
+	Likes    string  `json:"likes"`
 }
 
 func ReviewValidator(review *Review) error {

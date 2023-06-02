@@ -58,6 +58,8 @@ definitions:
         type: integer
       image_adr:
         type: string
+      likes:
+        type: string
       opinion:
         type: string
       user_id:
@@ -251,6 +253,54 @@ paths:
               type: array
             type: object
       summary: Creates a new game
+      tags:
+      - games
+  /games/ranking:
+    get:
+      consumes:
+      - application/json
+      description: Route to show a ranking
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: Show a ranking
+      tags:
+      - games
+  /games/search:
+    get:
+      consumes:
+      - application/json
+      description: Route to show games
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Game'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: Show games
       tags:
       - games
   /healthz:
