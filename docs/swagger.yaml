@@ -1,4 +1,33 @@
 definitions:
+  models.EditUser:
+    properties:
+      description:
+        type: string
+      discord_user:
+        type: string
+      epic_user:
+        type: string
+      github_user:
+        type: string
+      id:
+        type: integer
+      mail:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      photo_adr:
+        type: string
+      steam_user:
+        type: string
+      top_adr:
+        type: string
+      twitch_user:
+        type: string
+      user_name:
+        type: string
+    type: object
   models.Edwiges:
     properties:
       mail:
@@ -746,6 +775,51 @@ paths:
               type: array
             type: object
       summary: Show an user
+      tags:
+      - users
+    patch:
+      consumes:
+      - application/json
+      description: With params edits an user
+      parameters:
+      - description: User Model
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.EditUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+        "409":
+          description: Conflict
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: Edits an user
       tags:
       - users
     post:
