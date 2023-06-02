@@ -57,6 +57,52 @@ func CreateUser(c *gin.Context) {
 	c.JSON(http.StatusOK, user)
 }
 
+// EditUser godoc
+// @Summary      Edits an user
+// @Description  With params edits an user
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Param        user  body  models.EditUser  true  "User Model"
+// @Success      200  {object}  models.User
+// @Failure      400  {object}  map[string][]string
+// @Failure      404  {object}  map[string][]string
+// @Failure      409  {object}  map[string][]string
+// @Router       /users [patch]
+func EditUser(c *gin.Context) {
+	var user models.EditUser
+
+	if err := c.ShouldBindJSON(&user); err != nil {
+		log.Default().Printf("Binding error: %+v", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := models.EditUserValidator(&user); err != nil {
+		log.Default().Printf("Validation error: %+v", err)
+		c.JSON(http.StatusBadRequest, gin.H{"Validation error": err.Error()})
+		return
+	}
+
+	if infra.DB.Where("mail = $1", user.Mail).Find(&user).RowsAffected > 0 {
+		if user.ID != 0 {
+			log.Default().Print("User already exists")
+			c.JSON(http.StatusConflict, user)
+			return
+		}
+	}
+
+	user.Password = services.SHA256Encoder(user.Password)
+
+	if infra.DB.Model(&user).Create(&user).RowsAffected == 0 {
+		log.Default().Print("Internal server error")
+		c.JSON(http.StatusInternalServerError, gin.H{"Internal server error": "Something has occured"})
+		return
+	}
+
+	c.JSON(http.StatusOK, user)
+}
+
 // GetUser godoc
 // @Summary      Show an user
 // @Description  Route to show an user

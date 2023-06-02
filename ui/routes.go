@@ -50,6 +50,11 @@ var cad = []Route{
 	},
 	{
 		"/users",
+		http.MethodPatch,
+		controllers.EditUser,
+	},
+	{
+		"/users",
 		http.MethodDelete,
 		controllers.DeleteUser,
 	},
@@ -68,6 +73,16 @@ var game = []Route{
 		"/games",
 		http.MethodGet,
 		controllers.GetGame,
+	},
+	{
+		"/games/search",
+		http.MethodGet,
+		controllers.SearchGames,
+	},
+	{
+		"/games/ranking",
+		http.MethodGet,
+		controllers.GetRanking,
 	},
 	{
 		"/games",

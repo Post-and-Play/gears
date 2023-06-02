@@ -4,11 +4,11 @@ import "gopkg.in/validator.v2"
 
 type Game struct {
 	Id          uint    `json:"id" gorm:"primaryKey;autoIncrement"`
-	Name        string  `json:"name" validate:"nonzero"`
-	Genders     string  `json:"genders" validate:"nonzero"`
-	Description string  `json:"description" validate:"nonzero"`
-	CoverAdr    string  `json:"cover_adr" validate:"nonzero"`
-	TopAdr      string  `json:"top_adr" validate:"nonzero"`
+	Name        string  `json:"name" validate:"nonzero" gorm:"not null"`
+	Genders     string  `json:"genders" validate:"nonzero" gorm:"not null"`
+	Description string  `json:"description" validate:"nonzero" gorm:"not null"`
+	CoverAdr    string  `json:"cover_adr" validate:"nonzero" gorm:"not null"`
+	TopAdr      string  `json:"top_adr" validate:"nonzero" gorm:"not null"`
 	Rating      float64 `json:"rating"`
 	Reviews     int     `json:"reviews"`
 }

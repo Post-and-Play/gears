@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "gears",
-    "dateExported": "2023-03-01T01:11:01.197Z",
+    "dateExported": "2023-06-02T07:33:35.112Z",
     "version": "1.1",
     "folders": [
         {
@@ -24,6 +24,34 @@
             "containerId": "",
             "created": "2023-03-01T00:57:12.000Z",
             "sortNum": 30000
+        },
+        {
+            "_id": "d69bdf08-78e3-4b93-a0f7-3700649456bc",
+            "name": "follow",
+            "containerId": "",
+            "created": "2023-05-30T12:30:59.116Z",
+            "sortNum": 40000
+        },
+        {
+            "_id": "89a169e7-ab6f-401b-ba91-5ddee3b19e32",
+            "name": "review",
+            "containerId": "",
+            "created": "2023-05-30T12:31:04.107Z",
+            "sortNum": 50000
+        },
+        {
+            "_id": "096967e4-0704-4e6c-bb21-114b11247198",
+            "name": "like",
+            "containerId": "",
+            "created": "2023-05-30T12:31:17.284Z",
+            "sortNum": 60000
+        },
+        {
+            "_id": "bb7ce80e-97a2-4ba8-90f1-9cc0bcd7061e",
+            "name": "mail",
+            "containerId": "",
+            "created": "2023-06-02T07:30:30.762Z",
+            "sortNum": 70000
         }
     ],
     "requests": [
@@ -36,12 +64,12 @@
             "method": "POST",
             "sortNum": 10000,
             "created": "2023-02-24T01:09:21.134Z",
-            "modified": "2023-02-28T14:15:49.701Z",
+            "modified": "2023-06-02T07:26:35.636Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"name\":\"jonas brothers\",\n  \"user_name\":\"12345\",\n  \"password\":\"123456\",\n  \"mail\":\"cleyton_rasta05@bla.com\",\n  \"birth_date\":\"01/08/2002\"\n}",
+                "raw": "{\n  \"name\":\"jonas brothers\",\n  \"user_name\":\"sasuke\",\n  \"password\":\"senhasegura\",\n  \"mail\":\"cleyton_rasta05@bla.com\",\n  \"birth_date\":\"01/08/2002\"\n}",
                 "form": []
             },
             "tests": []
@@ -55,12 +83,31 @@
             "method": "POST",
             "sortNum": 10000,
             "created": "2023-03-01T00:57:16.956Z",
-            "modified": "2023-03-01T01:10:31.256Z",
+            "modified": "2023-05-26T22:17:46.212Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"name\":\"Mineirinho Adventures\",\n  \"genders\":\"action,adventure\",\n  \"cover_adr\":\"path/path\",\n  \"rating\":\"0\",\n  \"favorite_count\":\"0\",\n  \"ranking_position\":\"1\"\n}",
+                "raw": "{\n  \"name\":\"Mineirinho Adventures\",\n  \"genders\":\"action,adventure\",\n  \"cover_adr\":\"path/path\",\n  \"rating\":\"0\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "295cf800-267d-460d-949e-bce68854027d",
+            "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
+            "containerId": "1ff83313-210c-4c23-8100-254dbe067214",
+            "name": "Edit User",
+            "url": "{{HOST}}:{{PORT}}/api/users",
+            "method": "PATCH",
+            "sortNum": 15000,
+            "created": "2023-06-02T07:26:09.840Z",
+            "modified": "2023-06-02T07:26:40.546Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"jonas brothers\",\n  \"user_name\":\"sasuke\",\n  \"password\":\"senhasegura\",\n  \"mail\":\"cleyton_rasta05@bla.com\",\n  \"birth_date\":\"01/08/2002\"\n}",
                 "form": []
             },
             "tests": []
@@ -70,16 +117,16 @@
             "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
             "containerId": "1ff83313-210c-4c23-8100-254dbe067214",
             "name": "Get User",
-            "url": "{{HOST}}:{{PORT}}/api/users?id=4",
+            "url": "{{HOST}}:{{PORT}}/api/users?id=2",
             "method": "GET",
             "sortNum": 20000,
             "created": "2023-02-24T01:09:33.215Z",
-            "modified": "2023-02-28T13:45:53.710Z",
+            "modified": "2023-06-01T23:42:04.257Z",
             "headers": [],
             "params": [
                 {
                     "name": "id",
-                    "value": "4",
+                    "value": "2",
                     "isPath": false
                 }
             ],
@@ -106,23 +153,65 @@
             "tests": []
         },
         {
+            "_id": "4c696d45-a616-4fdf-a219-8775a4a1d12d",
+            "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
+            "containerId": "7faeb5b8-b98f-48de-bf8d-6ab2ad09a65e",
+            "name": "Get Ranking",
+            "url": "{{HOST}}:{{PORT}}/api/games/ranking",
+            "method": "GET",
+            "sortNum": 25000,
+            "created": "2023-06-02T07:28:27.438Z",
+            "modified": "2023-06-02T07:28:40.034Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "e3aca9f0-cc6b-4fec-b3b8-13ca5c7b35b1",
+            "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
+            "containerId": "7faeb5b8-b98f-48de-bf8d-6ab2ad09a65e",
+            "name": "List Games",
+            "url": "{{HOST}}:{{PORT}}/api/games/list",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2023-06-02T07:27:33.898Z",
+            "modified": "2023-06-02T07:27:54.506Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
             "_id": "a2383286-c3ec-4c12-af9a-91c52a7dabb7",
             "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
             "containerId": "1ff83313-210c-4c23-8100-254dbe067214",
             "name": "Delete User",
-            "url": "{{HOST}}:{{PORT}}/api/users?id=2",
+            "url": "{{HOST}}:{{PORT}}/api/users?id=1",
             "method": "DELETE",
             "sortNum": 40000,
             "created": "2023-02-24T01:10:36.620Z",
-            "modified": "2023-03-01T01:06:30.152Z",
+            "modified": "2023-05-30T12:31:26.562Z",
             "headers": [],
             "params": [
                 {
                     "name": "id",
-                    "value": "2",
+                    "value": "1",
                     "isPath": false
                 }
             ],
+            "tests": []
+        },
+        {
+            "_id": "d3e18e67-8a14-4610-a353-e5bfb027e59a",
+            "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
+            "containerId": "7faeb5b8-b98f-48de-bf8d-6ab2ad09a65e",
+            "name": "Search Games",
+            "url": "{{HOST}}:{{PORT}}/api/games/search",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2023-06-02T07:27:35.982Z",
+            "modified": "2023-06-02T07:28:01.343Z",
+            "headers": [],
+            "params": [],
             "tests": []
         },
         {
@@ -134,12 +223,12 @@
             "method": "POST",
             "sortNum": 50000,
             "created": "2023-02-24T01:11:05.606Z",
-            "modified": "2023-02-28T13:47:21.176Z",
+            "modified": "2023-05-30T12:32:35.560Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"mail\":\"cleyton_rasta05@bla.com\",\n  \"password\":\"123456\"\n}",
+                "raw": "{\n  \"login\":\"cleyton_rasta05@bla.com\",\n  \"password\":\"senhasegura\"\n}",
                 "form": []
             },
             "tests": []
@@ -170,6 +259,139 @@
             "modified": "2023-02-28T13:05:27.460Z",
             "headers": [],
             "params": [],
+            "tests": []
+        },
+        {
+            "_id": "220da420-750f-4791-8e6e-2768665eee80",
+            "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
+            "containerId": "d69bdf08-78e3-4b93-a0f7-3700649456bc",
+            "name": "Follow",
+            "url": "{{HOST}}:{{PORT}}/api/follow",
+            "method": "POST",
+            "sortNum": 80000,
+            "created": "2023-06-02T07:28:50.485Z",
+            "modified": "2023-06-02T07:30:06.114Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"following_id\":\"1\",\n  \"followed_id\":\"2\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "00c21f29-79e5-4976-945c-89b39ebc25e3",
+            "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
+            "containerId": "d69bdf08-78e3-4b93-a0f7-3700649456bc",
+            "name": "Follow Copy",
+            "url": "{{HOST}}:{{PORT}}/api/follow",
+            "method": "DELETE",
+            "sortNum": 90000,
+            "created": "2023-06-02T07:29:59.551Z",
+            "modified": "2023-06-02T07:30:12.330Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"following_id\":\"1\",\n  \"followed_id\":\"2\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "f3a5e804-65c5-4911-ab2e-1e4f60d9a492",
+            "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
+            "containerId": "89a169e7-ab6f-401b-ba91-5ddee3b19e32",
+            "name": "Create Review",
+            "url": "{{HOST}}:{{PORT}}/api/review",
+            "method": "POST",
+            "sortNum": 90000,
+            "created": "2023-06-02T07:30:45.846Z",
+            "modified": "2023-06-02T07:31:11.892Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "781c2f2f-9856-480a-afca-d2768ae22a42",
+            "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
+            "containerId": "89a169e7-ab6f-401b-ba91-5ddee3b19e32",
+            "name": "Get Review",
+            "url": "{{HOST}}:{{PORT}}/api/review",
+            "method": "GET",
+            "sortNum": 100000,
+            "created": "2023-06-02T07:31:18.148Z",
+            "modified": "2023-06-02T07:31:33.244Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "f4ac0c3b-079f-46d0-a662-67a55abcbe35",
+            "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
+            "containerId": "096967e4-0704-4e6c-bb21-114b11247198",
+            "name": "Like Review",
+            "url": "{{HOST}}:{{PORT}}/api/like",
+            "method": "POST",
+            "sortNum": 110000,
+            "created": "2023-06-02T07:31:45.517Z",
+            "modified": "2023-06-02T07:32:06.026Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "67e133d8-9e9d-4971-af3f-faf585438532",
+            "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
+            "containerId": "096967e4-0704-4e6c-bb21-114b11247198",
+            "name": "Unlike Review",
+            "url": "{{HOST}}:{{PORT}}/api/like",
+            "method": "DELETE",
+            "sortNum": 120000,
+            "created": "2023-06-02T07:32:09.755Z",
+            "modified": "2023-06-02T07:32:40.747Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "25ce616c-69d4-40aa-a16c-c4fcaf23e0fd",
+            "colId": "424bc88b-8dc8-4641-99a7-19eaf8e54d94",
+            "containerId": "bb7ce80e-97a2-4ba8-90f1-9cc0bcd7061e",
+            "name": "Send Mail",
+            "url": "{{HOST}}:{{PORT}}/api/mail",
+            "method": "POST",
+            "sortNum": 120000,
+            "created": "2023-06-02T07:32:50.662Z",
+            "modified": "2023-06-02T07:33:25.366Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"mail\":\"cleyton@mail.com\"}",
+                "form": []
+            },
             "tests": []
         }
     ]

@@ -78,3 +78,73 @@ func GetGame(c *gin.Context) {
 
 	c.JSON(http.StatusOK, game)
 }
+
+// SearchGames godoc
+// @Summary      Show games
+// @Description  Route to show games
+// @Tags         games
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  []models.Game
+// @Failure      404  {object}  map[string][]string
+// @Router       /games/search [get]
+func SearchGames(c *gin.Context) {
+	var games []models.Game
+
+	infra.DB.Find(&games)
+
+	if games[0].Id == 0 {
+		log.Default().Print("Game not found")
+		c.JSON(http.StatusNotFound, gin.H{"Not found": "Game not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, games)
+}
+
+// ListGames godoc
+// @Summary      Show games
+// @Description  Route to show games
+// @Tags         games
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  []models.Game
+// @Failure      404  {object}  map[string][]string
+// @Router       /games/list [get]
+func ListGames(c *gin.Context) {
+	var games []models.Game
+
+	infra.DB.Find(&games)
+
+	if games[0].Id == 0 {
+		log.Default().Print("Game not found")
+		c.JSON(http.StatusNotFound, gin.H{"Not found": "Game not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, games)
+}
+
+// GetRanking godoc
+// @Summary Show a ranking
+// @Description Route to show a ranking
+// @Tags games
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  int
+// @Failure      404  {object}  map[string][]string
+// @Router       /games/ranking [get]
+func GetRanking(c *gin.Context) {
+	var ranking int
+	id := c.Query("id")
+
+	infra.DB.Find("colum_number").Where("id = $1", id).Order("id DESC").Scan(ranking)
+
+	if ranking == 0 {
+		log.Default().Print("Game not found")
+		c.JSON(http.StatusNotFound, gin.H{"Not found": "Game not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, ranking)
+}

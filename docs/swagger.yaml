@@ -1,4 +1,33 @@
 definitions:
+  models.EditUser:
+    properties:
+      description:
+        type: string
+      discord_user:
+        type: string
+      epic_user:
+        type: string
+      github_user:
+        type: string
+      id:
+        type: integer
+      mail:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      photo_adr:
+        type: string
+      steam_user:
+        type: string
+      top_adr:
+        type: string
+      twitch_user:
+        type: string
+      user_name:
+        type: string
+    type: object
   models.Edwiges:
     properties:
       mail:
@@ -57,6 +86,8 @@ definitions:
       id:
         type: integer
       image_adr:
+        type: string
+      likes:
         type: string
       opinion:
         type: string
@@ -251,6 +282,79 @@ paths:
               type: array
             type: object
       summary: Creates a new game
+      tags:
+      - games
+  /games/list:
+    get:
+      consumes:
+      - application/json
+      description: Route to show games
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Game'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: Show games
+      tags:
+      - games
+  /games/ranking:
+    get:
+      consumes:
+      - application/json
+      description: Route to show a ranking
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: Show a ranking
+      tags:
+      - games
+  /games/search:
+    get:
+      consumes:
+      - application/json
+      description: Route to show games
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Game'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: Show games
       tags:
       - games
   /healthz:
@@ -696,6 +800,51 @@ paths:
               type: array
             type: object
       summary: Show an user
+      tags:
+      - users
+    patch:
+      consumes:
+      - application/json
+      description: With params edits an user
+      parameters:
+      - description: User Model
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.EditUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+        "409":
+          description: Conflict
+          schema:
+            additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+      summary: Edits an user
       tags:
       - users
     post:

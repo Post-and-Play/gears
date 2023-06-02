@@ -14,6 +14,8 @@ import (
 
 func Router() *gin.Engine {
 	r := gin.Default()
+	r.Use(AddDefaultHandlers)
+
 	handleRoutes(r)
 	return r
 }
