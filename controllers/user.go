@@ -70,7 +70,7 @@ func CreateUser(c *gin.Context) {
 // @Failure      409  {object}  map[string][]string
 // @Router       /users [patch]
 func EditUser(c *gin.Context) {
-	var user models.EditUser
+	var user models.User
 
 	if err := c.ShouldBindJSON(&user); err != nil {
 		log.Default().Printf("Binding error: %+v", err)

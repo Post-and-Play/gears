@@ -31,6 +31,7 @@ func UserValidator(user *User) error {
 	return nil
 }
 
+/*
 type EditUser struct {
 	ID          uint   `json:"id" validate:"nonzero"`
 	Name        string `json:"name"`
@@ -46,6 +47,7 @@ type EditUser struct {
 	GithubUser  string `json:"github_user"`
 	TwitchUser  string `json:"twitch_user"`
 }
+*/
 
 func EditUserValidator(user *EditUser) error {
 	if err := validator.Validate(user); err != nil {
