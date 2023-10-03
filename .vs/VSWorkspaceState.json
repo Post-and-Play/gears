@@ -2,8 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\controllers",
-    "\\ui"
+    "\\models"
   ],
-  "SelectedNode": "\\controllers\\user.go",
+  "SelectedNode": "\\models\\user.go",
   "PreviewInSolutionExplorer": false
 }

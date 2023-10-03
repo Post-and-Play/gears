@@ -31,13 +31,12 @@ func UserValidator(user *User) error {
 	return nil
 }
 
-/*
+
 type EditUser struct {
 	ID          uint   `json:"id" validate:"nonzero"`
 	Name        string `json:"name"`
 	UserName    string `json:"user_name"`
-	Password    string `json:"password"`
-	Mail        string `json:"mail"`
+	BirthDate   string `json:"birth_date"`
 	Description string `json:"description"`
 	PhotoAdr    string `json:"photo_adr"`
 	TopAdr      string `json:"top_adr"`
@@ -47,9 +46,25 @@ type EditUser struct {
 	GithubUser  string `json:"github_user"`
 	TwitchUser  string `json:"twitch_user"`
 }
-*/
+
 
 func EditUserValidator(user *EditUser) error {
+	if err := validator.Validate(user); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+
+
+type EditPassword struct {
+	ID          uint   `json:"id" validate:"nonzero"`
+	Password    string `json:"password"`
+}
+
+
+func EditEditPasswordValidator(user *EditPassword) error {
 	if err := validator.Validate(user); err != nil {
 		return err
 	}

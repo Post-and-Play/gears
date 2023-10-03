@@ -55,6 +55,11 @@ var cad = []Route{
 	},
 	{
 		"/users",
+		http.MethodPut,
+		controllers.EditPassword,
+	},
+	{
+		"/users",
 		http.MethodDelete,
 		controllers.DeleteUser,
 	},

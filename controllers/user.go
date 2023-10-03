@@ -70,7 +70,7 @@ func CreateUser(c *gin.Context) {
 // @Failure      409  {object}  map[string][]string
 // @Router       /users [patch]
 func EditUser(c *gin.Context) {
-	var user models.User
+	var user models.EditUser
 
 	if err := c.ShouldBindJSON(&user); err != nil {
 		log.Default().Printf("Binding error: %+v", err)
@@ -84,17 +84,15 @@ func EditUser(c *gin.Context) {
 		return
 	}
 
-	if infra.DB.Where("mail = $1", user.Mail).Find(&user).RowsAffected > 0 {
-		if user.ID != 0 {
-			log.Default().Print("User already exists")
-			c.JSON(http.StatusConflict, user)
-			return
-		}
-	}
+	//if infra.DB.Where("mail = $1", user.Mail).Find(&user).RowsAffected > 0 {
+	//	if user.ID != 0 {
+	//		log.Default().Print("User already exists")
+	//		c.JSON(http.StatusConflict, user)
+	//		return
+	//	}
+	//}
 
-	user.Password = services.SHA256Encoder(user.Password)
-
-	if infra.DB.Model(&user).Create(&user).RowsAffected == 0 {
+	if infra.DB.Model(&user).Updates(&user).RowsAffected == 0 {
 		log.Default().Print("Internal server error")
 		c.JSON(http.StatusInternalServerError, gin.H{"Internal server error": "Something has occured"})
 		return
@@ -102,6 +100,45 @@ func EditUser(c *gin.Context) {
 
 	c.JSON(http.StatusOK, user)
 }
+
+// EditPassword godoc
+// @Summary      Edits EditPassword an user
+// @Description  With params edits EditPassword an user
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Param        user  body  models.EditPassword  true  "User Model"
+// @Success      200  {object}  models.User
+// @Failure      400  {object}  map[string][]string
+// @Failure      404  {object}  map[string][]string
+// @Failure      409  {object}  map[string][]string
+// @Router       /users [put]
+func EditPassword(c *gin.Context) {
+	var user models.EditPassword
+
+	if err := c.ShouldBindJSON(&user); err != nil {
+		log.Default().Printf("Binding error: %+v", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := models.EditEditPasswordValidator(&user); err != nil {
+		log.Default().Printf("Validation error: %+v", err)
+		c.JSON(http.StatusBadRequest, gin.H{"Validation error": err.Error()})
+		return
+	}
+
+	user.Password = services.SHA256Encoder(user.Password)
+
+	if infra.DB.Model(&user).Updates(&user).RowsAffected == 0 {
+		log.Default().Print("Internal server error")
+		c.JSON(http.StatusInternalServerError, gin.H{"Internal server error": "Something has occured"})
+		return
+	}
+
+	c.JSON(http.StatusOK, user)
+}
+
 
 // GetUser godoc
 // @Summary      Show an user
