@@ -70,29 +70,31 @@ func CreateUser(c *gin.Context) {
 // @Failure      409  {object}  map[string][]string
 // @Router       /users [patch]
 func EditUser(c *gin.Context) {
-	var user models.EditUser
+	var edit_user models.EditUser
 
-	if err := c.ShouldBindJSON(&user); err != nil {
+	if err := c.ShouldBindJSON(&edit_user); err != nil {
 		log.Default().Printf("Binding error: %+v", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if err := models.EditUserValidator(&user); err != nil {
+	if err := models.EditUserValidator(&edit_user); err != nil {
 		log.Default().Printf("Validation error: %+v", err)
 		c.JSON(http.StatusBadRequest, gin.H{"Validation error": err.Error()})
 		return
 	}
 
-	//if infra.DB.Where("mail = $1", user.Mail).Find(&user).RowsAffected > 0 {
-	//	if user.ID != 0 {
-	//		log.Default().Print("User already exists")
-	//		c.JSON(http.StatusConflict, user)
-	//		return
-	//	}
-	//}
+	var user models.User
 
-	if infra.DB.Model(&user).Updates(&user).RowsAffected == 0 {
+	if infra.DB.Where("id = $1", edit_user.ID).Find(&user).RowsAffected > 0 {
+		if user.ID == 0 {
+			log.Default().Print("Wrong login")
+			c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
+			return
+		}
+	}
+	
+	if infra.DB.Model(&user).Updates(&edit_user).RowsAffected == 0 {
 		log.Default().Print("Internal server error")
 		c.JSON(http.StatusInternalServerError, gin.H{"Internal server error": "Something has occured"})
 		return
@@ -114,23 +116,33 @@ func EditUser(c *gin.Context) {
 // @Failure      409  {object}  map[string][]string
 // @Router       /users [put]
 func EditPassword(c *gin.Context) {
-	var user models.EditPassword
+	var userpass models.EditPassword
 
-	if err := c.ShouldBindJSON(&user); err != nil {
+	if err := c.ShouldBindJSON(&userpass); err != nil {
 		log.Default().Printf("Binding error: %+v", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if err := models.EditEditPasswordValidator(&user); err != nil {
+	if err := models.EditEditPasswordValidator(&userpass); err != nil {
 		log.Default().Printf("Validation error: %+v", err)
 		c.JSON(http.StatusBadRequest, gin.H{"Validation error": err.Error()})
 		return
 	}
 
-	user.Password = services.SHA256Encoder(user.Password)
+	var user models.User
 
-	if infra.DB.Model(&user).Updates(&user).RowsAffected == 0 {
+	if infra.DB.Where("id = $1", userpass.ID).Find(&user).RowsAffected > 0 {
+		if user.ID == 0 {
+			log.Default().Print("Wrong login")
+			c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
+			return
+		}
+	}
+
+	userpass.Password = services.SHA256Encoder(userpass.Password)
+
+	if infra.DB.Model(&user).Updates(&userpass).RowsAffected == 0 {
 		log.Default().Print("Internal server error")
 		c.JSON(http.StatusInternalServerError, gin.H{"Internal server error": "Something has occured"})
 		return
