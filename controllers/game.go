@@ -93,10 +93,16 @@ func SearchGames(c *gin.Context) {
 
 	infra.DB.Find(&games)
 
-	if games[0].Id == 0 {
-		log.Default().Print("Game not found")
-		c.JSON(http.StatusNotFound, gin.H{"Not found": "Game not found"})
+	if len(games) == 0 {
+		log.Default().Print("No has games")
+		c.JSON(http.StatusNotFound, gin.H{"Not found": "No has games"})
 		return
+	} else {
+		if games[0].Id == 0 {
+			log.Default().Print("Game not found")
+			c.JSON(http.StatusNotFound, gin.H{"Not found": "Game not found"})
+			return
+		}
 	}
 
 	c.JSON(http.StatusOK, games)
@@ -116,11 +122,18 @@ func ListGames(c *gin.Context) {
 
 	infra.DB.Find(&games)
 
-	if games[0].Id == 0 {
-		log.Default().Print("Game not found")
-		c.JSON(http.StatusNotFound, gin.H{"Not found": "Game not found"})
+	if len(games) == 0 {
+		log.Default().Print("No has games")
+		c.JSON(http.StatusNotFound, gin.H{"Not found": "No has games"})
 		return
+	} else {
+		if games[0].Id == 0 {
+			log.Default().Print("Game not found")
+			c.JSON(http.StatusNotFound, gin.H{"Not found": "Game not found"})
+			return
+		}
 	}
+	
 
 	c.JSON(http.StatusOK, games)
 }
