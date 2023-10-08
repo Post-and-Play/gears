@@ -80,7 +80,7 @@ func GetReview(c *gin.Context) {
 func ListLastReviews(c *gin.Context) {
 	var reviews []models.Review
 
-	infra.DB.Find(reviews).Limit(30)
+	infra.DB.Find(&reviews).Limit(30)
 
 	if reviews[0].Id == 0 {
 		log.Default().Print("Reviews not found")
@@ -105,7 +105,7 @@ func ListReviewsByUser(c *gin.Context) {
 
 	id := c.Query("id")
 
-	infra.DB.Find(reviews).Where("user_id = $1", id).Limit(30)
+	infra.DB.Find(&reviews).Where("user_id = $1", id).Limit(30)
 
 	if reviews[0].Id == 0 {
 		log.Default().Print("Reviews not found")
