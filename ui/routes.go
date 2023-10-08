@@ -122,6 +122,11 @@ var review = []Route{
 		http.MethodGet,
 		controllers.ListReviewsByUser,
 	},
+	{
+		"/reviews/game",
+		http.MethodGet,
+		controllers.ListReviewsByGame,
+	},
 }
 
 var like = []Route{

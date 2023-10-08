@@ -1,11 +1,6 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\controllers",
-    "\\infra",
-    "\\models",
-    "\\ui"
+    ""
   ],
-  "SelectedNode": "\\controllers\\game.go",
   "PreviewInSolutionExplorer": false
 }
