@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\infra",
+    "\\models",
+    "\\ui"
   ],
+  "SelectedNode": "\\ui\\http.go",
   "PreviewInSolutionExplorer": false
 }

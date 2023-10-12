@@ -161,3 +161,34 @@ func GetRanking(c *gin.Context) {
 
 	c.JSON(http.StatusOK, ranking)
 }
+
+
+// DeleteRecommended godoc
+// @Summary      Show an user
+// @Description  Route to show an user
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  string
+// @Failure      400  {object}  map[string][]string
+// @Failure      404  {object}  map[string][]string
+// @Failure      500  {object}  map[string][]string
+// @Router       /recommended [delete]
+func DeleteGame(c *gin.Context) {
+	var game models.Game
+	id := c.Query("id")
+
+	infra.DB.First(&game, id)
+	if game.Id == 0 {
+		log.Default().Print("User not found")
+		c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
+	}
+
+	if infra.DB.Delete(&game, id).RowsAffected == 0 {
+		log.Default().Print("Internal server error")
+		c.JSON(http.StatusInternalServerError, gin.H{"Internal server error": "Something has occured"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"OK": "Game deleted sucessfully"})
+}

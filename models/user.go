@@ -64,7 +64,7 @@ type EditPassword struct {
 }
 
 
-func EditEditPasswordValidator(user *EditPassword) error {
+func EditPasswordValidator(user *EditPassword) error {
 	if err := validator.Validate(user); err != nil {
 		return err
 	}

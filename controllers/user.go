@@ -124,7 +124,7 @@ func EditPassword(c *gin.Context) {
 		return
 	}
 
-	if err := models.EditEditPasswordValidator(&userpass); err != nil {
+	if err := models.EditPasswordValidator(&userpass); err != nil {
 		log.Default().Printf("Validation error: %+v", err)
 		c.JSON(http.StatusBadRequest, gin.H{"Validation error": err.Error()})
 		return

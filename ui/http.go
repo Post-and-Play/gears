@@ -58,7 +58,7 @@ func handleRoutes(r *gin.Engine) {
 
 	apiGroup := r.Group("/api")
 
-	routers := [][]Route{cad, login, game, review, like, follow, mail}
+	routers := [][]Route{admin, cad, login, game, review, like, follow, mail, recommended}
 
 	for _, router := range routers {
 		for _, route := range router {

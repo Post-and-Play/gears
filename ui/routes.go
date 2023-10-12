@@ -71,6 +71,11 @@ var login = []Route{
 		http.MethodPost,
 		controllers.Login,
 	},
+	{
+		"/admins/login",
+		http.MethodPost,
+		controllers.AdminLogin,
+	},
 }
 
 var game = []Route{
@@ -93,6 +98,11 @@ var game = []Route{
 		"/games",
 		http.MethodPost,
 		controllers.CreateGame,
+	},
+	{
+		"/games",
+		http.MethodDelete,
+		controllers.DeleteGame,
 	},
 }
 
@@ -170,5 +180,61 @@ var mail = []Route{
 		"/mail",
 		http.MethodPost,
 		controllers.SendMail,
+	},
+}
+
+var admin = []Route{
+	{
+		"/admins",
+		http.MethodGet,
+		controllers.GetAdmin,
+	},
+	{
+		"/admins",
+		http.MethodPost,
+		controllers.CreateAdmin,
+	},
+	{
+		"/admins",
+		http.MethodPatch,
+		controllers.EditAdmin,
+	},
+	{
+		"/admins",
+		http.MethodPut,
+		controllers.EditAdminPassword,
+	},
+	{
+		"/admins",
+		http.MethodDelete,
+		controllers.DeleteAdmin,
+	},
+}
+
+var recommended = []Route{
+	{
+		"/recommendeds",
+		http.MethodGet,
+		controllers.GetRecommended,
+	},
+	{
+		"/recommendeds/search",
+		http.MethodGet,
+		controllers.SearchRecommended,
+	},
+	{
+		"/recommendeds",
+		http.MethodPost,
+		controllers.CreateRecommended,
+	},
+	{
+		"/recommendeds",
+		http.MethodPut,
+		controllers.ApproveRecommended,
+	},
+	{
+		"/recommendeds",
+		http.MethodDelete,
+		controllers.DeleteRecommended,
 	},
 }

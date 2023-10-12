@@ -68,3 +68,59 @@ func Login(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"Token": token, "id": user.ID})
 }
+
+
+// Login godoc
+// @Summary      login Admin
+// @Description  With params login
+// @Tags         login
+// @Accept       json
+// @Produce      json
+// @Param        login  body  models.Login  true  "Login Model"
+// @Success      200  {object}  models.Login
+// @Failure      400  {object}  map[string][]string
+// @Failure      403  {object}  map[string][]string
+// @Failure      404  {object}  map[string][]string
+// @Router       /admins/login [post]
+func AdminLogin(c *gin.Context) {
+	var login models.Login
+
+	if err := c.ShouldBindJSON(&login); err != nil {
+		log.Default().Printf("Biding error: %+v", err)
+		c.JSON(http.StatusBadRequest, gin.H{"Binding error": err.Error()})
+		return
+	}
+
+	if err := models.LoginValidator(&login); err != nil {
+		log.Default().Printf("Validation error: %+v", err)
+		c.JSON(http.StatusBadRequest, gin.H{"Validation error": err.Error()})
+		return
+	}
+
+	var admin models.Admin
+
+	if infra.DB.Where("mail = $1", login.Login).Find(&admin).RowsAffected > 0 {
+		if admin.ID == 0 {
+			log.Default().Print("Wrong login")
+			c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
+			return
+		}
+	}
+
+	//Encode pass ennter && verify
+	if admin.Password != services.SHA256Encoder(login.Password) {
+		log.Default().Print("Wrong password")
+		c.JSON(http.StatusForbidden, gin.H{"Forbidden": "Invalid credentials"})
+		return
+	}
+
+	//Generate JWT Token
+	token, err := services.NewJWTService().GenerateToken(int64(admin.ID))
+	if err != nil {
+		log.Default().Printf("Generate token error: %+v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"Internal server error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"Token": token, "id": admin.ID})
+}
