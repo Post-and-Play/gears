@@ -11,6 +11,8 @@ type Recommended struct {
 	Creator     string  `json:"creator" validate:"nonzero" gorm:"not null"`
 	IsFree      bool    `json:"is_free" gorm:"not null"`
 	Approved    bool    `json:"approved" gorm:"not null`
+	CoverAdr    string  `json:"cover_adr" validate:"nonzero" gorm:"not null"`
+	TopAdr      string  `json:"top_adr" validate:"nonzero" gorm:"not null"`
 }
 
 func RecommendedValidator(game *Recommended) error {
