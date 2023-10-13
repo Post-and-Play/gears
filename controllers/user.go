@@ -3,7 +3,7 @@ package controllers
 import (
 	"log"
 	"net/http"
-
+	"strings"
 	"github.com/Post-and-Play/gears/infra"
 	"github.com/Post-and-Play/gears/models"
 	"github.com/Post-and-Play/gears/services"
@@ -204,4 +204,72 @@ func DeleteUser(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"OK": "User deleted sucessfully"})
+}
+
+
+
+
+// SearchUsers godoc
+// @Summary      Show user by filter
+// @Description  Route to show games
+// @Tags         games
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  []models.User
+// @Failure      404  {object}  map[string][]string
+// @Router       /users/search [get]
+func SearchUsers(c *gin.Context) {
+	var users []models.User
+	name := c.Query("name")
+
+	if strings.Compare(name, "") != 0 { 
+		//log.Default().Print("name has cotent: " + name)
+		infra.DB.Where("name LIKE ?", "%" + name + "%").Find(&users)
+	} else {
+		infra.DB.Find(&users)
+	}
+
+	if len(users) == 0 {
+		log.Default().Print("No has users")
+		c.JSON(http.StatusNotFound, gin.H{"Not found": "No has users"})
+		return
+	} else {
+		if users[0].ID == 0 {
+			log.Default().Print("User not found")
+			c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
+			return
+		}
+	}
+
+	c.JSON(http.StatusOK, users)
+}
+
+// ListUsers godoc
+// @Summary      Show users
+// @Description  Route to show games
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  []models.User
+// @Failure      404  {object}  map[string][]string
+// @Router       /users/list [get]
+func ListUsers(c *gin.Context) {
+	var users []models.User
+
+	infra.DB.Find(&users)
+
+	if len(users) == 0 {
+		log.Default().Print("No has users")
+		c.JSON(http.StatusNotFound, gin.H{"Not found": "No has users"})
+		return
+	} else {
+		if users[0].ID == 0 {
+			log.Default().Print("User not found")
+			c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
+			return
+		}
+	}
+	
+
+	c.JSON(http.StatusOK, users)
 }

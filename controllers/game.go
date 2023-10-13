@@ -3,7 +3,7 @@ package controllers
 import (
 	"log"
 	"net/http"
-
+	"strings"
 	"github.com/Post-and-Play/gears/infra"
 	"github.com/Post-and-Play/gears/models"
 	"github.com/gin-gonic/gin"
@@ -90,8 +90,14 @@ func GetGame(c *gin.Context) {
 // @Router       /games/search [get]
 func SearchGames(c *gin.Context) {
 	var games []models.Game
+	name := c.Query("name")
 
-	infra.DB.Find(&games)
+	if strings.Compare(name, "") != 0 { 
+		//log.Default().Print("name has cotent: " + name)
+		infra.DB.Where("name LIKE ?", "%" + name + "%").Find(&games)
+	} else {
+		infra.DB.Find(&games)
+	}
 
 	if len(games) == 0 {
 		log.Default().Print("No has games")
@@ -151,7 +157,7 @@ func GetRanking(c *gin.Context) {
 	var ranking int
 	id := c.Query("id")
 
-	infra.DB.Find("colum_number").Where("id = $1", id).Order("id DESC").Scan(ranking)
+	infra.DB.Find("colum_number").Where("id = $1", id).Scan(ranking)
 
 	if ranking == 0 {
 		log.Default().Print("Game not found")

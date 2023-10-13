@@ -63,6 +63,16 @@ var cad = []Route{
 		http.MethodDelete,
 		controllers.DeleteUser,
 	},
+	{
+		"/users/search",
+		http.MethodGet,
+		controllers.SearchUsers,
+	},
+	{
+		"/users/list",
+		http.MethodGet,
+		controllers.ListUsers,
+	},
 }
 
 var login = []Route{
@@ -169,9 +179,14 @@ var follow = []Route{
 		controllers.Follow,
 	},
 	{
-		"/unfollow",
+		"/follow",
 		http.MethodDelete,
 		controllers.Unfollow,
+	},
+	{
+		"/follow",
+		http.MethodGet,
+		controllers.GetFollow,
 	},
 }
 
