@@ -253,3 +253,26 @@ var recommended = []Route{
 		controllers.DeleteRecommended,
 	},
 }
+
+var favorite = []Route{
+	{
+		"/favorite",
+		http.MethodPost,
+		controllers.FavoriteGame,
+	},
+	{
+		"/favorite",
+		http.MethodDelete,
+		controllers.UnFavoriteGame,
+	},
+	{
+		"/favorite/user",
+		http.MethodGet,
+		controllers.GetFavoritesByUser,
+	},
+	{
+		"/favorite/game",
+		http.MethodGet,
+		controllers.GetFavoritesByGame,
+	},
+}
