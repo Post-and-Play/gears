@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\infra"
+    "\\controllers",
+    "\\models"
   ],
-  "SelectedNode": "\\infra\\database.go",
+  "SelectedNode": "\\models\\favorite.go",
   "PreviewInSolutionExplorer": false
 }

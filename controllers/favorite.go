@@ -54,24 +54,25 @@ func FavoriteGame(c *gin.Context) {
 // @Failure      404  {object}  map[string][]string
 // @Router       /favorite/user [get]
 func GetFavoritesByUser(c *gin.Context) {
-	var favorite []models.Favorite
+	var favorites []models.FavoriteGame
+	var favorite models.Favorite
 
 	id := c.Query("id")
 
-	infra.DB.Find(&favorite).Where("user_id = $1", id).Limit(30)
+	infra.DB.Model(&favorite).Joins("JOIN games ON games.id = favorites.game_id").Where("user_id = $1", id).Scan(&favorites)
 
-	if len(favorite) == 0 {
+	if len(favorites) == 0 {
 		log.Default().Print("No has favorites")
 		c.JSON(http.StatusNotFound, gin.H{"Not found": "No has favorites"})
 		return
 	} else {
-		if favorite[0].Id == 0 {
+		if favorites[0].Id == 0 {
 			log.Default().Print("Favorites not found")
 			c.JSON(http.StatusNotFound, gin.H{"Not found": "Favorites not found"})
 			return
 		}
 	}
-	c.JSON(http.StatusOK, favorite)
+	c.JSON(http.StatusOK, favorites)
 }
 
 // GetFavoritesByGame godoc
