@@ -79,8 +79,11 @@ func GetReview(c *gin.Context) {
 // @Router       /reviews [get]
 func ListLastReviews(c *gin.Context) {
 	var reviews []models.Review
+	var review  []models.Review
 
-	infra.DB.Find(&reviews).Limit(30)
+	//infra.DB.Find(&reviews).Limit(30)
+
+	infra.DB.Model(&review).Select("reviews.id, reviews.user_id, reviews.game_id, reviews.grade, reviews.image_adr, reviews.opinion, reviews.likes, users.name, users.photo_adr").Joins("LEFT JOIN users ON users.id = reviews.user_id").Scan(&reviews)
 
 	if reviews[0].Id == 0 {
 		log.Default().Print("Reviews not found")
@@ -157,11 +160,13 @@ func DeleteReview(c *gin.Context) {
 // @Failure      404  {object}  map[string][]string
 // @Router       /reviews/game [get]
 func ListReviewsByGame(c *gin.Context) {
-	var reviews []models.Review
+	var reviews []models.ReviewUser
+	var review  []models.Review
 
 	id := c.Query("id")
 
-	infra.DB.Find(&reviews).Where("game_id = $1", id).Limit(30)
+	//infra.DB.Find(&reviews).Where("game_id = $1", id).Limit(30)
+	infra.DB.Model(&review).Select("reviews.id, reviews.user_id, reviews.game_id, reviews.grade, reviews.image_adr, reviews.opinion, reviews.likes, users.name, users.photo_adr").Joins("LEFT JOIN users ON users.id = reviews.user_id").Where("game_id = $1", id).Scan(&reviews).Limit(30)
 
 	if reviews[0].Id == 0 {
 		log.Default().Print("Reviews not found")

@@ -4,7 +4,7 @@ import "gopkg.in/validator.v2"
 
 type Recommended struct {
 	Id          uint    `json:"id" gorm:"primaryKey;autoIncrement"`
-	UserId      uint    `json:"user_id" validate:"nonzero" gorm:"not null;foreignKey:users.id,constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
+	UserId      uint    `json:"user_id" validate:"nonzero" gorm:"not null"`
 	Name        string  `json:"name" validate:"nonzero" gorm:"not null"`
 	Genders     string  `json:"genders" validate:"nonzero" gorm:"not null"`
 	Description string  `json:"description" validate:"nonzero" gorm:"not null"`

@@ -41,6 +41,14 @@ func LikeReview(c *gin.Context) {
 		return
 	}
 
+	var review models.Review
+
+	if infra.DB.Model(&review).Where("id = ?", like.ReviewId).Update("likes", review.Likes + 1).RowsAffected == 0 {
+		log.Default().Print("Internal server error")
+		c.JSON(http.StatusInternalServerError, gin.H{"Internal server error": "Something has occured"})
+		return
+	}
+
 	c.JSON(http.StatusOK, like)
 }
 
@@ -54,11 +62,17 @@ func LikeReview(c *gin.Context) {
 // @Failure      404  {object}  map[string][]string
 // @Router       /likes/user [get]
 func GetLikesByUser(c *gin.Context) {
-	var likes int64
+	var likes []models.Like
 
 	id := c.Query("id")
 
-	infra.DB.Count(&likes).Where("user_id = $1", id)
+	infra.DB.Find(&likes).Where("user_id = $1", id)
+
+	if len(likes) == 0 {
+		log.Default().Print("No has likes")
+		c.JSON(http.StatusOK, likes)
+		return
+	}
 
 	c.JSON(http.StatusOK, likes)
 }
@@ -95,15 +109,17 @@ func GetLikesByReview(c *gin.Context) {
 // @Router       /like [delete]
 func UnlikeReview(c *gin.Context) {
 	var like models.Like
-	id := c.Query("id")
+	user_id := c.Query("user_id")
+	review_id := c.Query("review_id")
 
-	infra.DB.First(&like, id)
-	if like.Id == 0 {
-		log.Default().Print("like not found")
-		c.JSON(http.StatusNotFound, gin.H{"Not found": "Like not found"})
-	}
+	//infra.DB.Find(&like).Where("user_id = $1 AND review_id = $1", user_id, review_id)
 
-	if infra.DB.Delete(&like, id).RowsAffected == 0 {
+	//if like.Id == 0 {
+	//	log.Default().Print("like not found")
+	//	c.JSON(http.StatusNotFound, gin.H{"Not found": "Like not found"})
+	//}
+
+	if infra.DB.Where("user_id = $1 AND review_id = $2", user_id, review_id).Delete(&like).RowsAffected == 0 {
 		log.Default().Print("Internal server error")
 		c.JSON(http.StatusInternalServerError, gin.H{"Internal server error": "Something has occured"})
 		return

@@ -59,7 +59,7 @@ func GetFavoritesByUser(c *gin.Context) {
 
 	id := c.Query("id")
 
-	infra.DB.Model(&favorite).Joins("JOIN games ON games.id = favorites.game_id").Where("user_id = $1", id).Scan(&favorites)
+	infra.DB.Model(&favorite).Select("favorites.id, favorites.user_id, favorites.game_id, games.name, games.genders, games.description, games.cover_adr, games.top_adr").Joins("LEFT JOIN games ON games.id = favorites.game_id").Where("user_id = $1", id).Scan(&favorites)
 
 	if len(favorites) == 0 {
 		log.Default().Print("No has favorites")
