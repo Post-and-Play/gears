@@ -30,4 +30,6 @@ type ReviewUser struct {
 	Likes    int     `json:"likes" gorm:"default:0"`
 	Name     string  `json:"name" validate:"nonzero"`
 	PhotoAdr string  `json:"photo_adr"`
+	GameName string  `json:"game_name" validate:"nonzero"`
+	TopAdr	 string  `json:"top_adr"`
 }

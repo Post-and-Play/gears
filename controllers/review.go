@@ -78,12 +78,12 @@ func GetReview(c *gin.Context) {
 // @Failure      404  {object}  map[string][]string
 // @Router       /reviews [get]
 func ListLastReviews(c *gin.Context) {
-	var reviews []models.Review
+	var reviews []models.ReviewUser
 	var review  []models.Review
 
 	//infra.DB.Find(&reviews).Limit(30)
 
-	infra.DB.Model(&review).Select("reviews.id, reviews.user_id, reviews.game_id, reviews.grade, reviews.image_adr, reviews.opinion, reviews.likes, users.name, users.photo_adr").Joins("LEFT JOIN users ON users.id = reviews.user_id").Scan(&reviews)
+	infra.DB.Model(&review).Select("reviews.id, reviews.user_id, reviews.game_id, reviews.grade, reviews.image_adr, reviews.opinion, reviews.likes, users.name, users.photo_adr, games.name AS game_name, games.top_adr").Joins("LEFT JOIN users ON users.id = reviews.user_id ").Joins("LEFT JOIN games ON games.id = reviews.game_id ").Scan(&reviews).Limit(30)
 
 	if reviews[0].Id == 0 {
 		log.Default().Print("Reviews not found")
@@ -166,7 +166,7 @@ func ListReviewsByGame(c *gin.Context) {
 	id := c.Query("id")
 
 	//infra.DB.Find(&reviews).Where("game_id = $1", id).Limit(30)
-	infra.DB.Model(&review).Select("reviews.id, reviews.user_id, reviews.game_id, reviews.grade, reviews.image_adr, reviews.opinion, reviews.likes, users.name, users.photo_adr").Joins("LEFT JOIN users ON users.id = reviews.user_id").Where("game_id = $1", id).Scan(&reviews).Limit(30)
+	infra.DB.Model(&review).Select("reviews.id, reviews.user_id, reviews.game_id, reviews.grade, reviews.image_adr, reviews.opinion, reviews.likes, users.name, users.photo_adr, games.name AS game_name, games.top_adr").Joins("LEFT JOIN users ON users.id = reviews.user_id").Joins("LEFT JOIN games ON games.id = reviews.game_id ").Where("game_id = $1", id).Scan(&reviews).Limit(30)
 
 	if reviews[0].Id == 0 {
 		log.Default().Print("Reviews not found")

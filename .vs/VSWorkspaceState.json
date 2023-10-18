@@ -1,9 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\controllers",
-    "\\models"
+    ""
   ],
-  "SelectedNode": "\\models\\follow.go",
+  "SelectedNode": "\\tests",
   "PreviewInSolutionExplorer": false
 }

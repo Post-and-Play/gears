@@ -66,7 +66,7 @@ func GetLikesByUser(c *gin.Context) {
 
 	id := c.Query("id")
 
-	infra.DB.Find(&likes).Where("user_id = $1", id)
+	infra.DB.Where("user_id = $1", id).Find(&likes)
 
 	if len(likes) == 0 {
 		log.Default().Print("No has likes")
