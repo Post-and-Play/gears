@@ -224,6 +224,16 @@ var admin = []Route{
 		http.MethodDelete,
 		controllers.DeleteAdmin,
 	},
+	{
+		"/admins/search",
+		http.MethodGet,
+		controllers.SearchAdmins,
+	},
+	{
+		"/admins/list",
+		http.MethodGet,
+		controllers.ListAdmins,
+	},
 }
 
 var recommended = []Route{
