@@ -224,12 +224,12 @@ func SearchUsers(c *gin.Context) {
 
 	if strings.Compare(name, "") != 0 { 
 		//log.Default().Print("name has cotent: " + name)
-		infra.DB.Where("name LIKE $1 OR user_name LIKE $2", "%" + name + "%", "%" + name + "%").Find(&users)
+		infra.DB.Where("name LIKE ? OR user_name LIKE ?", "%" + name + "%" , "%" + name + "%").Find(&users)
 	} else {
 		infra.DB.Find(&users)
 	}
 
-	if len(users) == 0 {
+	/*if len(users) == 0 {
 		log.Default().Print("No has users")
 		c.JSON(http.StatusNotFound, gin.H{"Not found": "No has users"})
 		return
@@ -239,7 +239,7 @@ func SearchUsers(c *gin.Context) {
 			c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
 			return
 		}
-	}
+	}*/
 
 	c.JSON(http.StatusOK, users)
 }
@@ -257,8 +257,8 @@ func ListUsers(c *gin.Context) {
 	var users []models.User
 
 	infra.DB.Find(&users)
-
-	if len(users) == 0 {
+		
+	/*if len(users) == 0 {
 		log.Default().Print("No has users")
 		c.JSON(http.StatusNotFound, gin.H{"Not found": "No has users"})
 		return
@@ -268,7 +268,7 @@ func ListUsers(c *gin.Context) {
 			c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
 			return
 		}
-	}
+	}*/
 	
 
 	c.JSON(http.StatusOK, users)

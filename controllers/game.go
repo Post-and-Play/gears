@@ -99,7 +99,7 @@ func SearchGames(c *gin.Context) {
 		infra.DB.Find(&games)
 	}
 
-	if len(games) == 0 {
+	/*if len(games) == 0 {
 		log.Default().Print("No has games")
 		c.JSON(http.StatusNotFound, gin.H{"Not found": "No has games"})
 		return
@@ -109,7 +109,7 @@ func SearchGames(c *gin.Context) {
 			c.JSON(http.StatusNotFound, gin.H{"Not found": "Game not found"})
 			return
 		}
-	}
+	}*/
 
 	c.JSON(http.StatusOK, games)
 }
@@ -128,7 +128,7 @@ func ListGames(c *gin.Context) {
 
 	infra.DB.Find(&games)
 
-	if len(games) == 0 {
+	/*if len(games) == 0 {
 		log.Default().Print("No has games")
 		c.JSON(http.StatusNotFound, gin.H{"Not found": "No has games"})
 		return
@@ -138,8 +138,7 @@ func ListGames(c *gin.Context) {
 			c.JSON(http.StatusNotFound, gin.H{"Not found": "Game not found"})
 			return
 		}
-	}
-	
+	}*/
 
 	c.JSON(http.StatusOK, games)
 }

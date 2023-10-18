@@ -3,7 +3,7 @@ package controllers
 import (
 	"log"
 	"net/http"
-
+	"strings"
 	"github.com/Post-and-Play/gears/infra"
 	"github.com/Post-and-Play/gears/models"
 	"github.com/Post-and-Play/gears/services"
@@ -217,7 +217,7 @@ func DeleteAdmin(c *gin.Context) {
 // @Tags         admins
 // @Accept       json
 // @Produce      json
-// @Success      200  {object}  []models.User
+// @Success      200  {object}  []models.Admin
 // @Failure      404  {object}  map[string][]string
 // @Router       /admins/search [get]
 func SearchAdmins(c *gin.Context) {
@@ -231,7 +231,7 @@ func SearchAdmins(c *gin.Context) {
 		infra.DB.Find(&admins)
 	}
 
-	if len(admins) == 0 {
+	/*if len(admins) == 0 {
 		log.Default().Print("No has users")
 		c.JSON(http.StatusNotFound, gin.H{"Not found": "No has users"})
 		return
@@ -241,36 +241,36 @@ func SearchAdmins(c *gin.Context) {
 			c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
 			return
 		}
-	}
+	}*/
 
 	c.JSON(http.StatusOK, admins)
 }
 
-// ListUsers godoc
+// ListAdmins godoc
 // @Summary      Show admins
 // @Description  Route to show admins
 // @Tags         admins
 // @Accept       json
 // @Produce      json
-// @Success      200  {object}  []models.User
+// @Success      200  {object}  []models.Admin
 // @Failure      404  {object}  map[string][]string
 // @Router       /admins/list [get]
-func ListUsers(c *gin.Context) {
+func ListAdmins(c *gin.Context) {
 	var admins []models.Admin
 
 	infra.DB.Find(&admins)
 
-	if len(admins) == 0 {
-		log.Default().Print("No has admins")
-		c.JSON(http.StatusNotFound, gin.H{"Not found": "No has admins"})
+	/*if len(admins) == 0 {
+		log.Default().Print("No has users")
+		c.JSON(http.StatusNotFound, gin.H{"Not found": "No has users"})
 		return
 	} else {
 		if admins[0].ID == 0 {
-			log.Default().Print("Admin not found")
-			c.JSON(http.StatusNotFound, gin.H{"Not found": "Admin not found"})
+			log.Default().Print("User not found")
+			c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
 			return
 		}
-	}
+	}*/
 	
 
 	c.JSON(http.StatusOK, admins)
