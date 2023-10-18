@@ -108,7 +108,7 @@ func EditAdmin(c *gin.Context) {
 // EditPassword godoc
 // @Summary      Edits EditPassword an admin
 // @Description  With params edits EditPassword an admin
-// @Tags         users
+// @Tags         admins
 // @Accept       json
 // @Produce      json
 // @Param        user  body  models.EditAdminPassword  true  "User Model"
@@ -158,7 +158,7 @@ func EditAdminPassword(c *gin.Context) {
 // GetAdmin godoc
 // @Summary      Show an admin
 // @Description  Route to show an admin
-// @Tags         users
+// @Tags         admins
 // @Accept       json
 // @Produce      json
 // @Success      200  {object}  models.Admin
@@ -179,6 +179,7 @@ func GetAdmin(c *gin.Context) {
 
 	c.JSON(http.StatusOK, admin)
 }
+
 
 // DeleteAdmin godoc
 // @Summary      Show an admin
@@ -208,4 +209,69 @@ func DeleteAdmin(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"OK": "User deleted sucessfully"})
+}
+
+// SearchUsers godoc
+// @Summary      Show admins by filter
+// @Description  Route to show admins
+// @Tags         admins
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  []models.User
+// @Failure      404  {object}  map[string][]string
+// @Router       /admins/search [get]
+func SearchAdmins(c *gin.Context) {
+	var admins []models.Admin
+	name := c.Query("name")
+
+	if strings.Compare(name, "") != 0 { 
+		//log.Default().Print("name has cotent: " + name)
+		infra.DB.Where("name LIKE ?", "%" + name + "%").Find(&admins)
+	} else {
+		infra.DB.Find(&admins)
+	}
+
+	if len(admins) == 0 {
+		log.Default().Print("No has users")
+		c.JSON(http.StatusNotFound, gin.H{"Not found": "No has users"})
+		return
+	} else {
+		if admins[0].ID == 0 {
+			log.Default().Print("User not found")
+			c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
+			return
+		}
+	}
+
+	c.JSON(http.StatusOK, admins)
+}
+
+// ListUsers godoc
+// @Summary      Show admins
+// @Description  Route to show admins
+// @Tags         admins
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  []models.User
+// @Failure      404  {object}  map[string][]string
+// @Router       /admins/list [get]
+func ListUsers(c *gin.Context) {
+	var admins []models.Admin
+
+	infra.DB.Find(&admins)
+
+	if len(admins) == 0 {
+		log.Default().Print("No has admins")
+		c.JSON(http.StatusNotFound, gin.H{"Not found": "No has admins"})
+		return
+	} else {
+		if admins[0].ID == 0 {
+			log.Default().Print("Admin not found")
+			c.JSON(http.StatusNotFound, gin.H{"Not found": "Admin not found"})
+			return
+		}
+	}
+	
+
+	c.JSON(http.StatusOK, admins)
 }

@@ -224,7 +224,7 @@ func SearchUsers(c *gin.Context) {
 
 	if strings.Compare(name, "") != 0 { 
 		//log.Default().Print("name has cotent: " + name)
-		infra.DB.Where("name LIKE ?", "%" + name + "%").Find(&users)
+		infra.DB.Where("name LIKE $1 OR user_name LIKE $2", "%" + name + "%", "%" + name + "%").Find(&users)
 	} else {
 		infra.DB.Find(&users)
 	}
