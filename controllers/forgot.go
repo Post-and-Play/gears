@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 	"time"
-	"github.com/Post-and-Play/gears/services"
+	"github.com/Post-and-Play/gears/tree/mails/services"
 	"github.com/Post-and-Play/gears/infra"
 	"github.com/Post-and-Play/gears/models"
 	"github.com/gin-gonic/gin"
