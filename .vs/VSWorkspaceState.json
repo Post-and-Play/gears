@@ -2,8 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\controllers",
-    "\\models"
+    "\\infra",
+    "\\services",
+    "\\templates"
   ],
-  "SelectedNode": "\\controllers\\game.go",
+  "SelectedNode": "\\templates\\templates.go",
   "PreviewInSolutionExplorer": false
 }

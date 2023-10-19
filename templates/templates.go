@@ -8,7 +8,7 @@ import (
 )
 
 func BuildTemplate() (*template.Template, bytes.Buffer) {
-	t, err := template.ParseFiles("template.html")
+	t, err := template.ParseFiles("templates/template.html")
 	if err != nil {
 		log.Panicf("Error on parse template")
 		return nil, bytes.Buffer{}

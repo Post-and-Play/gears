@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 	"time"
-	"github.com/Post-and-Play/gears/tree/mails/services"
+	"github.com/Post-and-Play/gears/services"
 	"github.com/Post-and-Play/gears/infra"
 	"github.com/Post-and-Play/gears/models"
 	"github.com/gin-gonic/gin"
@@ -60,14 +60,15 @@ func ForgotUser(c *gin.Context) {
 	mailRequest.Subject = "PAP Redefinicao de senha"
 	mailRequest.Body =  "Ola Para redefinir sua senha clique no link abaixo"
 
-	mailResponse, err := mails.SendMail(receiver, mailRequest)
-	if err != nil {
-		log.Default().Printf("Mail error: %+v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"Mail error": err.Error()})
+	services.SendMail(&receiver, &mailRequest)
+
+	if mailRequest.OK != false {
+		log.Default().Printf("Mail error: %+v", "error")
+		c.JSON(http.StatusInternalServerError, gin.H{"Mail error" : "error"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"Success": mailResponse})
+	c.JSON(http.StatusOK, gin.H{"Success": mailRequest.OK})
 }
 
 

@@ -24,6 +24,8 @@ func SendMail(receiver *models.Receiver, mail *models.MailRequest) {
 
 	auth := smtp.PlainAuth("", sender.SenderMail, sender.SenderPass, smtpHost)
 
+	fmt.Println(sender.SenderMail + "\n" + sender.SenderPass)
+
 	t, body := templates.BuildTemplate()
 
 	t.Execute(&body, struct {
@@ -37,7 +39,10 @@ func SendMail(receiver *models.Receiver, mail *models.MailRequest) {
 	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, sender.SenderMail, to, body.Bytes())
 	if err != nil {
 		fmt.Println(err)
-		return
+		return 
 	}
-	fmt.Println("Email Sent!")
+
+	mail.OK = true
+	fmt.Println("isvalid: Email Sent!")
+	return 
 }

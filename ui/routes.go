@@ -116,6 +116,11 @@ var game = []Route{
 	},
 	{
 		"/games",
+		http.MethodPut,
+		controllers.UpdateGame,
+	},
+	{
+		"/games",
 		http.MethodDelete,
 		controllers.DeleteGame,
 	},

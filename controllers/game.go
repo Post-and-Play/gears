@@ -55,6 +55,54 @@ func CreateGame(c *gin.Context) {
 	c.JSON(http.StatusOK, game)
 }
 
+
+// UpdateGame godoc
+// @Summary      Update a game
+// @Description  With params updates a game
+// @Tags         games
+// @Accept       json
+// @Produce      json
+// @Param        game  body  models.Game  true  "Game Model"
+// @Success      200  {object}  models.Game
+// @Failure      400  {object}  map[string][]string
+// @Failure      409  {object}  map[string][]string
+// @Failure      500  {object}  map[string][]string
+// @Router       /games [put]
+func UpdateGame(c *gin.Context) {
+	var game models.Game
+	var edit_game models.EditGame
+
+	id := c.Query("id")
+
+	infra.DB.First(&game, id)
+
+	if game.Id == 0 {
+		log.Default().Print("Game not found")
+		c.JSON(http.StatusNotFound, gin.H{"Not found": "Game not found"})
+		return
+	}
+
+	if err := c.ShouldBindJSON(&edit_game); err != nil {
+		log.Default().Printf("Binding error: %+v", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := models.EditGameValidator(&edit_game); err != nil {
+		log.Default().Printf("Validation error: %+v", err)
+		c.JSON(http.StatusBadRequest, gin.H{"Validation error": err.Error()})
+		return
+	}
+
+	if infra.DB.Model(&game).Updates(&edit_game).RowsAffected == 0 {
+		log.Default().Print("Internal server error")
+		c.JSON(http.StatusInternalServerError, gin.H{"Internal server error": "Something has occured"})
+		return
+	}
+
+	c.JSON(http.StatusOK, game)
+}
+
 // GetGame godoc
 // @Summary      Show a game
 // @Description  Route to show a game

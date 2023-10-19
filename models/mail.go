@@ -14,6 +14,7 @@ type Receiver struct {
 type MailRequest struct {
 	Subject string `json:"subject" validate:"nonzero"`
 	Body	string `json:"body" validate:"nonzero"`
+	OK		bool   `json:"ok" gorm:"default:false"`
 }
 
 func MailRequestValidator(mail *MailRequest) error {

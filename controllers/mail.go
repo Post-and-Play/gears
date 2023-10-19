@@ -6,11 +6,13 @@ import (
 	"os"
 	"github.com/Post-and-Play/gears/models"
 	"github.com/Post-and-Play/gears/templates"
+	"github.com/gin-gonic/gin"
 )
 
 // SendMail
-func SendMail(receiver *models.Receiver, mail *models.MailRequest) {
+func SendMail(c *gin.Context) {
 	var sender models.Sender
+	var receiver models.Receiver
 
 	sender.SenderMail = os.Getenv("SENDER_MAIL")
 	sender.SenderPass = os.Getenv("SENDER_PASS")
@@ -30,8 +32,8 @@ func SendMail(receiver *models.Receiver, mail *models.MailRequest) {
 		Subject string
 		Message string
 	}{
-		Subject: mail.Subject,
-		Message: mail.Body,
+		Subject: "Subject Email",
+		Message: "Body Email",
 	})
 
 	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, sender.SenderMail, to, body.Bytes())
