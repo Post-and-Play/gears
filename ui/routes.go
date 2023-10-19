@@ -73,6 +73,11 @@ var cad = []Route{
 		http.MethodGet,
 		controllers.ListUsers,
 	},
+	{
+		"/forgot",
+		http.MethodGet,
+		controllers.ForgotUser,
+	},
 }
 
 var login = []Route{

@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/Post-and-Play/gears/models"
+	_ "github.com/Post-and-Play/gears/models"
 )
 
 type HttpClient struct {
@@ -25,14 +25,14 @@ func NewHttpClient(url string) *HttpClient {
 	}
 }
 
-func (h *HttpClient) EdwigesPost(mail string) (string, error) {
+func (h *HttpClient) MailPost(mail string) (string, error) {
 	payload, err := json.Marshal(mail)
 	if err != nil {
 		log.Default().Printf("Marshal error: %+v", err)
 		return "", err
 	}
 
-	var edwigesResponse models.Edwiges
+	var mailResponse string
 
 	endpoint := fmt.Sprintf("%s/api/mail", h.BaseUrl)
 
@@ -49,12 +49,12 @@ func (h *HttpClient) EdwigesPost(mail string) (string, error) {
 	}
 	defer resp.Body.Close()
 
-	err = json.NewDecoder(resp.Body).Decode(&edwigesResponse)
+	err = json.NewDecoder(resp.Body).Decode(&mailResponse)
 
 	if resp.StatusCode != 200 {
 		log.Default().Printf("Mail error: %+v", err)
 		return "", err
 	}
 
-	return edwigesResponse.Mail, nil
+	return mailResponse, nil
 }

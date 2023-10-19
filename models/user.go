@@ -21,6 +21,7 @@ type User struct {
 	DiscordUser string `json:"discord_user"`
 	GithubUser  string `json:"github_user"`
 	TwitchUser  string `json:"twitch_user"`
+	SecurityKey string `json:"security_key"`
 }
 
 func UserValidator(user *User) error {
@@ -69,5 +70,24 @@ func EditPasswordValidator(user *EditPassword) error {
 		return err
 	}
 
+	return nil
+}
+
+
+type Forgot struct {
+	ID          uint   `json:"mail" validate:"nonzero"`
+}
+
+type RecoverPassword struct {
+	ID          uint   `json:"id" validate:"nonzero"`
+	Password    string `json:"password"`
+	SecurityKey string `json:"security_key"`
+}
+
+
+func RecoverPasswordValidator(user *RecoverPassword) error {
+	if err := validator.Validate(user); err != nil {
+		return err
+	}
 	return nil
 }

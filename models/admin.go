@@ -10,6 +10,7 @@ type Admin struct {
 	Password    string `json:"password" validate:"nonzero"`
 	Mail        string `json:"mail" validate:"nonzero"`
 	PhotoAdr    string `json:"photo_adr"`
+	SecurityKey string `json:"security_key"`
 }
 
 func AdminValidator(admin *Admin) error {
