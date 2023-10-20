@@ -78,6 +78,16 @@ var cad = []Route{
 		http.MethodGet,
 		controllers.ForgotUser,
 	},
+	{
+		"/recover",
+		http.MethodGet,
+		controllers.GetRecoverUser,
+	},
+	{
+		"/recover",
+		http.MethodPost,
+		controllers.RecoverPasswordUser,
+	},
 }
 
 var login = []Route{
@@ -243,6 +253,21 @@ var admin = []Route{
 		"/admins/list",
 		http.MethodGet,
 		controllers.ListAdmins,
+	},
+	{
+		"/admins/forgot",
+		http.MethodGet,
+		controllers.ForgotAdmin,
+	},
+	{
+		"/admins/recover",
+		http.MethodGet,
+		controllers.GetRecoverAdmin,
+	},
+	{
+		"/admins/recover",
+		http.MethodPost,
+		controllers.RecoverPasswordAdmin,
 	},
 }
 

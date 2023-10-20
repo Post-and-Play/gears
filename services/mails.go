@@ -24,20 +24,27 @@ func SendMail(receiver *models.Receiver, mail *models.MailRequest) {
 
 	auth := smtp.PlainAuth("", sender.SenderMail, sender.SenderPass, smtpHost)
 
-	fmt.Println(sender.SenderMail + "\n" + sender.SenderPass)
+	//fmt.Println(sender.SenderMail + "\n" + sender.SenderPass)
 
-	t, body := templates.BuildTemplate()
+	t, body := templates.BuildTemplate(mail.Subject)
 
 	t.Execute(&body, struct {
-		Subject string
+		Title string
 		Message string
+		Link string
+		Footer string
+		ButtonText string
 	}{
-		Subject: mail.Subject,
-		Message: mail.Body,
+		Title: mail.Title,
+		Message: mail.Message,
+		Link: mail.Link,
+		Footer: mail.Footer,
+		ButtonText: mail.ButtonText,
 	})
 
 	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, sender.SenderMail, to, body.Bytes())
 	if err != nil {
+		mail.OK = false
 		fmt.Println(err)
 		return 
 	}

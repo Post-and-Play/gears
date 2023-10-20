@@ -1,8 +1,30 @@
 <!-- template.html -->
 <!DOCTYPE html>
+<head>
+    <style type="text/css">
+        .button-link {
+            background-color: #633f9a;
+            border-radius: 10px;
+            box-sizing: border-box;
+            color: #fff;
+            display: flex;
+            padding: 8px 16px;
+            height: 40px;
+            width: max-content;
+            text-decoration: none;
+            transition: background-color 1s;
+        }
+        .button-link:hover {
+            background-color: #482c74;
+        }
+    </style>
+</head>
 <html>
 <body>
-    <h3>Name:</h3><span>{{.Name}}</span><br/><br/>
-    <h3>Email:</h3><span>{{.Message}}</span><br/>
+    <h3>{{.Title}}</h3>
+    <br />
+    <p>{{.Message}}</p>
+    <a class="button-link" href={{.Link}}>{{.ButtonText}}</a>
+    <p>{{.Footer}}</p>
 </body>
 </html>

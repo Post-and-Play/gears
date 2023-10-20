@@ -26,7 +26,7 @@ func SendMail(c *gin.Context) {
 
 	auth := smtp.PlainAuth("", sender.SenderMail, sender.SenderPass, smtpHost)
 
-	t, body := templates.BuildTemplate()
+	t, body := templates.BuildTemplate("Message")
 
 	t.Execute(&body, struct {
 		Subject string
