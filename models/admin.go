@@ -23,7 +23,6 @@ func AdminValidator(admin *Admin) error {
 
 
 type EditAdmin struct {
-	ID          uint   `json:"id" validate:"nonzero"`
 	Name        string `json:"name"`
 	PhotoAdr    string `json:"photo_adr"`
 }
@@ -39,7 +38,6 @@ func EditAdminValidator(admin *EditAdmin) error {
 
 
 type EditAdminPassword struct {
-	ID          uint   `json:"id" validate:"nonzero"`
 	Password    string `json:"password"`
 }
 
@@ -49,5 +47,22 @@ func EditAdminPasswordValidator(admin *EditAdminPassword) error {
 		return err
 	}
 
+	return nil
+}
+
+
+type ForgotAdmin struct {
+	ID          uint   `json:"mail" validate:"nonzero"`
+}
+
+type RecoverPasswordAdmin struct {
+	Password    string `json:"password"`
+	SecurityKey string `json:"security_key"`
+}
+
+func RecoverPasswordAdminValidator(admin *RecoverPasswordAdmin) error {
+	if err := validator.Validate(admin); err != nil {
+		return err
+	}
 	return nil
 }

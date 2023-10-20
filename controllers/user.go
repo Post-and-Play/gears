@@ -70,6 +70,7 @@ func CreateUser(c *gin.Context) {
 // @Failure      409  {object}  map[string][]string
 // @Router       /users [patch]
 func EditUser(c *gin.Context) {
+	id := c.Query("id")
 	var edit_user models.EditUser
 
 	if err := c.ShouldBindJSON(&edit_user); err != nil {
@@ -86,7 +87,7 @@ func EditUser(c *gin.Context) {
 
 	var user models.User
 
-	if infra.DB.Where("id = $1", edit_user.ID).Find(&user).RowsAffected > 0 {
+	if infra.DB.Where("id = $1", id).Find(&user).RowsAffected > 0 {
 		if user.ID == 0 {
 			log.Default().Print("Wrong login")
 			c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
@@ -116,6 +117,7 @@ func EditUser(c *gin.Context) {
 // @Failure      409  {object}  map[string][]string
 // @Router       /users [put]
 func EditPassword(c *gin.Context) {
+	id := c.Query("id")
 	var userpass models.EditPassword
 
 	if err := c.ShouldBindJSON(&userpass); err != nil {
@@ -132,7 +134,7 @@ func EditPassword(c *gin.Context) {
 
 	var user models.User
 
-	if infra.DB.Where("id = $1", userpass.ID).Find(&user).RowsAffected > 0 {
+	if infra.DB.Where("id = $1", id).Find(&user).RowsAffected > 0 {
 		if user.ID == 0 {
 			log.Default().Print("Wrong login")
 			c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})

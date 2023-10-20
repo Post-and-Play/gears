@@ -72,6 +72,7 @@ func CreateAdmin(c *gin.Context) {
 // @Router       /admins [patch]
 
 func EditAdmin(c *gin.Context) {
+	id := c.Query("id")
 	var edit_admin models.EditAdmin
 
 	if err := c.ShouldBindJSON(&edit_admin); err != nil {
@@ -88,7 +89,7 @@ func EditAdmin(c *gin.Context) {
 
 	var admin models.Admin
 
-	if infra.DB.Where("id = $1", edit_admin.ID).Find(&admin).RowsAffected > 0 {
+	if infra.DB.Where("id = $1", id).Find(&admin).RowsAffected > 0 {
 		if admin.ID == 0 {
 			log.Default().Print("Wrong login")
 			c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
@@ -119,6 +120,7 @@ func EditAdmin(c *gin.Context) {
 // @Router       /admins [put]
 
 func EditAdminPassword(c *gin.Context) {
+	id := c.Query("id")
 	var adminpass models.EditAdminPassword
 
 	if err := c.ShouldBindJSON(&adminpass); err != nil {
@@ -135,7 +137,7 @@ func EditAdminPassword(c *gin.Context) {
 
 	var admin models.Admin
 
-	if infra.DB.Where("id = $1", adminpass.ID).Find(&admin).RowsAffected > 0 {
+	if infra.DB.Where("id = ?", id).Find(&admin).RowsAffected > 0 {
 		if admin.ID == 0 {
 			log.Default().Print("Wrong login")
 			c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})

@@ -34,7 +34,6 @@ func UserValidator(user *User) error {
 
 
 type EditUser struct {
-	ID          uint   `json:"id" validate:"nonzero"`
 	Name        string `json:"name"`
 	UserName    string `json:"user_name"`
 	BirthDate   string `json:"birth_date"`
@@ -57,13 +56,9 @@ func EditUserValidator(user *EditUser) error {
 	return nil
 }
 
-
-
 type EditPassword struct {
-	ID          uint   `json:"id" validate:"nonzero"`
 	Password    string `json:"password"`
 }
-
 
 func EditPasswordValidator(user *EditPassword) error {
 	if err := validator.Validate(user); err != nil {
@@ -73,19 +68,16 @@ func EditPasswordValidator(user *EditPassword) error {
 	return nil
 }
 
-
-type Forgot struct {
+type ForgotUser struct {
 	ID          uint   `json:"mail" validate:"nonzero"`
 }
 
-type RecoverPassword struct {
-	ID          uint   `json:"id" validate:"nonzero"`
+type RecoverPasswordUser struct {
 	Password    string `json:"password"`
 	SecurityKey string `json:"security_key"`
 }
 
-
-func RecoverPasswordValidator(user *RecoverPassword) error {
+func RecoverPasswordUserValidator(user *RecoverPasswordUser) error {
 	if err := validator.Validate(user); err != nil {
 		return err
 	}
