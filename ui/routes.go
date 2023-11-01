@@ -88,6 +88,11 @@ var cad = []Route{
 		http.MethodPost,
 		controllers.RecoverPasswordUser,
 	},
+	{
+		"/verify",
+		http.MethodGet,
+		controllers.VerifyEmailUser,
+	},
 }
 
 var login = []Route{

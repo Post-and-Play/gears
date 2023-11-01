@@ -3,7 +3,9 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"os"
 	"strings"
+	"time"
 	"github.com/Post-and-Play/gears/infra"
 	"github.com/Post-and-Play/gears/models"
 	"github.com/Post-and-Play/gears/services"
@@ -26,6 +28,8 @@ import (
 func CreateUser(c *gin.Context) {
 	var user models.User
 
+	url := os.Getenv("FRONT_URL")
+
 	if err := c.ShouldBindJSON(&user); err != nil {
 		log.Default().Printf("Binding error: %+v", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -38,19 +42,42 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
-	if infra.DB.Where("mail = $1", user.Mail).Find(&user).RowsAffected > 0 {
+	if infra.DB.Where("mail = ?", user.Mail).Or("user_name = ?", user.UserName).Find(&user).RowsAffected > 0 {
 		if user.ID != 0 {
 			log.Default().Print("User already exists")
-			c.JSON(http.StatusConflict, user)
+			c.JSON(http.StatusConflict, gin.H{"already": "E-mail ou Nickname já existente"})
 			return
 		}
 	}
 
 	user.Password = services.SHA256Encoder(user.Password)
 
+	currentTime := time.Now()
+
+	user.SecurityKey = services.SHA256Encoder(user.Mail + user.Password + currentTime.String())
+
 	if infra.DB.Model(&user).Create(&user).RowsAffected == 0 {
 		log.Default().Print("Internal server error")
 		c.JSON(http.StatusInternalServerError, gin.H{"Internal server error": "Something has occured"})
+		return
+	}
+
+	var receiver models.Receiver
+	receiver.ReceiverMail = user.Mail 
+
+	var mailRequest models.MailRequest
+	mailRequest.Subject = "PAP - Verificação do E-mail da conta"
+	mailRequest.Title = "Verificar E-mail da sua conta PAP"
+	mailRequest.Message =  "Olá!\n Para verificar seu e-mail da conta clique no link abaixo: "
+	mailRequest.Link =  url + "/verificar-email?key=" + user.SecurityKey
+	mailRequest.Footer =  "E-mail automático, não responda esse e-mail.\nEquipe Posting And Playing"
+	mailRequest.ButtonText = "Verificar meu E-mail"
+
+	services.SendMail(&receiver, &mailRequest)
+
+	if mailRequest.OK != true {
+		log.Default().Printf("Mail error: %+v", "error")
+		c.JSON(http.StatusInternalServerError, gin.H{"Mail error" : "error"})
 		return
 	}
 
@@ -207,8 +234,6 @@ func DeleteUser(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"OK": "User deleted sucessfully"})
 }
-
-
 
 
 // SearchUsers godoc

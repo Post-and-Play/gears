@@ -51,7 +51,7 @@ func ForgotUser(c *gin.Context) {
 	var mailRequest models.MailRequest
 	mailRequest.Subject = "PAP - Redefinição de senha"
 	mailRequest.Title = "Redefinir a senha da sua conta PAP"
-	mailRequest.Message =  "Olá Para redefinir sua senha clique no link abaixo: "
+	mailRequest.Message =  "Olá!\n Para redefinir sua senha clique no link abaixo: "
 	mailRequest.Link =  url + "/redefinir-senha?key=" + user.SecurityKey
 	mailRequest.Footer =  "E-mail automático, não responda esse e-mail.\nEquipe Posting And Playing"
 	mailRequest.ButtonText = "Redefinir minha senha"
@@ -138,6 +138,47 @@ func RecoverPasswordUser(c *gin.Context) {
 	recover.SecurityKey = ""
 
 	if infra.DB.Model(&user).Updates(&recover).RowsAffected == 0 {
+		log.Default().Print("Internal server error")
+		c.JSON(http.StatusInternalServerError, gin.H{"Internal server error": "Something has occured"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"Success": "ok"})
+}
+
+
+// VerifyEmailUser godoc
+// @Summary      Verify email
+// @Description  With params sends a mail
+// @Tags         mail
+// @Accept       json
+// @Produce      json
+// @Param        mail  body  models.VerifyEmailUser  true  "VerifyEmailUser Model"
+// @Success      200  {object}  models.Edwiges
+// @Failure      400  {object}  map[string][]string
+// @Failure      500  {object}  map[string][]string
+// @Router       /verify [get]
+func VerifyEmailUser(c *gin.Context) {
+	var user models.User
+	key := c.Query("key")
+
+	if infra.DB.Model(&user).Where("security_key = ?", key).Find(&user).RowsAffected == 0 {
+		log.Default().Print("User not found")
+		c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
+		return
+	}
+
+	if user.ID == 0 {
+		log.Default().Print("User not found")
+		c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
+		return
+	}
+
+	var verify models.VerifyEmailUser
+	verify.MailVerify = true
+	verify.SecurityKey = ""
+
+	if infra.DB.Model(&user).Updates(&verify).RowsAffected == 0 {
 		log.Default().Print("Internal server error")
 		c.JSON(http.StatusInternalServerError, gin.H{"Internal server error": "Something has occured"})
 		return

@@ -22,6 +22,7 @@ type User struct {
 	GithubUser  string `json:"github_user"`
 	TwitchUser  string `json:"twitch_user"`
 	SecurityKey string `json:"security_key"`
+	MailVerify  bool   `json:"mail_verify" gorm:"default:false"`
 }
 
 func UserValidator(user *User) error {
@@ -78,6 +79,18 @@ type RecoverPasswordUser struct {
 }
 
 func RecoverPasswordUserValidator(user *RecoverPasswordUser) error {
+	if err := validator.Validate(user); err != nil {
+		return err
+	}
+	return nil
+}
+
+type VerifyEmailUser struct {
+	MailVerify  bool `json:"mail_verify"`
+	SecurityKey string `json:"security_key"`
+}
+
+func VerifyEmailUserValidator(user *VerifyEmailUser) error {
 	if err := validator.Validate(user); err != nil {
 		return err
 	}
