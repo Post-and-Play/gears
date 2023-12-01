@@ -201,20 +201,31 @@ func ListGames(c *gin.Context) {
 // @Failure      404  {object}  map[string][]string
 // @Router       /games/ranking [get]
 func GetRanking(c *gin.Context) {
-	var ranking int
-	id := c.Query("id")
+	var games []models.Game
+	
+	infra.DB.Model(&games).Order("reviews desc").Scan(&games).Limit(5)
 
-	infra.DB.Find("colum_number").Where("id = $1", id).Scan(ranking)
-
-	if ranking == 0 {
-		log.Default().Print("Game not found")
-		c.JSON(http.StatusNotFound, gin.H{"Not found": "Game not found"})
-		return
-	}
-
-	c.JSON(http.StatusOK, ranking)
+	c.JSON(http.StatusOK, games)
 }
 
+
+// GetSimilar godoc
+// @Summary Show a similar games
+// @Description Route to show a ranking
+// @Tags games
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  int
+// @Failure      404  {object}  map[string][]string
+// @Router       /games/similar [get]
+func GetSimilar(c *gin.Context) {
+	var games []models.Game
+	gender := c.Query("gender")
+
+	infra.DB.Model(&games).Where("genders LIKE ?", "%" + gender + "%").Find(&games).Limit(5)
+
+	c.JSON(http.StatusOK, games)
+}
 
 // DeleteRecommended godoc
 // @Summary      Show an user

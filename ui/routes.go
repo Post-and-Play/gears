@@ -125,6 +125,11 @@ var game = []Route{
 		controllers.GetRanking,
 	},
 	{
+		"/games/similar",
+		http.MethodGet,
+		controllers.GetSimilar,
+	},
+	{
 		"/games",
 		http.MethodPost,
 		controllers.CreateGame,
