@@ -3,9 +3,11 @@ package controllers
 import (
 	"log"
 	"net/http"
-
+	"os"
+	"strconv"
 	"github.com/Post-and-Play/gears/infra"
 	"github.com/Post-and-Play/gears/models"
+	"github.com/Post-and-Play/gears/services"
 	"github.com/gin-gonic/gin"
 )
 
@@ -81,15 +83,28 @@ func ListLastReviews(c *gin.Context) {
 	var reviews []models.ReviewUser
 	var review  []models.Review
 
-	//infra.DB.Find(&reviews).Limit(30)
+	url := os.Getenv("API_HOST")
 
 	infra.DB.Model(&review).Select("reviews.id, reviews.user_id, reviews.game_id, reviews.grade, reviews.image_adr, reviews.opinion, reviews.likes, users.name, users.photo_adr, games.name AS game_name, games.top_adr").Joins("LEFT JOIN users ON users.id = reviews.user_id ").Joins("LEFT JOIN games ON games.id = reviews.game_id ").Scan(&reviews).Limit(30)
 
-	//if reviews[0].Id == 0 {
-	//	log.Default().Print("Reviews not found")
-	//	c.JSON(http.StatusNotFound, gin.H{"Not found": "Reviews not found"})
-	//	return
-	//}
+	for i := 0; i < len(reviews); i++ {
+		//fmt.Println(i)
+		if reviews[i].ImageAdr != "" {
+			cipher := Encrypt("m=reviews&uid=" + strconv.FormatUint(uint64(reviews[i].Id), 10) + "&att=image_adr")
+			reviews[i].ImageAdr = url + "/api/image?" + cipher
+		}
+
+		if reviews[i].PhotoAdr != "" {
+			cipher := Encrypt("m=users&uid=" + strconv.FormatUint(uint64(reviews[i].UserId), 10) + "&att=photo_adr")
+			reviews[i].PhotoAdr = url + "/api/image?" + cipher
+		}
+
+		if reviews[i].TopAdr != "" {
+			cipher := Encrypt("m=games&uid=" + strconv.FormatUint(uint64(reviews[i].GameId), 10) + "&att=top_adr")
+			reviews[i].TopAdr = url + "/api/image?" + cipher
+		}
+
+	}
 
 	c.JSON(http.StatusOK, reviews)
 }

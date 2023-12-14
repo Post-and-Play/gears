@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\models"
+    "\\controllers",
+    "\\models",
+    "\\ui"
   ],
   "PreviewInSolutionExplorer": false
 }

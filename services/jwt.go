@@ -2,6 +2,9 @@ package services
 
 import (
 	"crypto/sha256"
+	"crypto/aes"
+	"crypto/cipher"
+	"encoding/hex"
 	"fmt"
 	"os"
 	"time"
@@ -61,4 +64,41 @@ func (s *jwtService) ValidateToken(token string) bool {
 func SHA256Encoder(pass string) string {
 	str := sha256.Sum256([]byte(pass))
 	return fmt.Sprintf("%x", str)
+}
+
+func Encrypt(text string) string {
+	key := []byte("pap2023")
+	plaintext := []byte(text)
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		panic(err.Error())
+	}
+	nonce := []byte("PostingAndPlaying")
+	aesgcm, err := cipher.NewGCM(block)
+	if err != nil {
+		panic(err.Error())
+	}
+	ciphertext := aesgcm.Seal(nil, nonce, plaintext, nil)
+	//fmt.Printf("Ciphertext: %x\n", ciphertext)
+	return string(ciphertext)
+}
+
+func Decrypt(text string) string {
+	key := []byte("pap2023")
+	ciphertext, _ := hex.DecodeString(text)
+	nonce := []byte("PostingAndPlaying")
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		panic(err.Error())
+	}
+	aesgcm, err := cipher.NewGCM(block)
+	if err != nil {
+		panic(err.Error())
+	}
+	plaintext, err := aesgcm.Open(nil, nonce, ciphertext, nil)
+	if err != nil {
+		panic(err.Error())
+	}
+	//fmt.Printf("Plaintext: %s\n", string(plaintext))
+	return string(plaintext)
 }

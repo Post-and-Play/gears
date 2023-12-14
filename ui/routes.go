@@ -331,3 +331,11 @@ var favorite = []Route{
 		controllers.GetFavoritesByGame,
 	},
 }
+
+var image = []Route{
+	{
+		"/image",
+		http.MethodGet,
+		controllers.GetImage,
+	},
+}
