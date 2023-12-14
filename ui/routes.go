@@ -334,7 +334,7 @@ var favorite = []Route{
 
 var image = []Route{
 	{
-		"/image",
+		"/image/:id",
 		http.MethodGet,
 		controllers.GetImage,
 	},

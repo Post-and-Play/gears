@@ -4,6 +4,8 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"os"
+	"strconv"
 	"github.com/Post-and-Play/gears/infra"
 	"github.com/Post-and-Play/gears/models"
 	"github.com/Post-and-Play/gears/services"
@@ -224,6 +226,9 @@ func DeleteAdmin(c *gin.Context) {
 // @Router       /admins/search [get]
 func SearchAdmins(c *gin.Context) {
 	var admins []models.Admin
+
+	url := os.Getenv("API_HOST")
+
 	name := c.Query("name")
 
 	if strings.Compare(name, "") != 0 { 
@@ -233,17 +238,17 @@ func SearchAdmins(c *gin.Context) {
 		infra.DB.Find(&admins)
 	}
 
-	/*if len(admins) == 0 {
-		log.Default().Print("No has users")
-		c.JSON(http.StatusNotFound, gin.H{"Not found": "No has users"})
-		return
-	} else {
-		if admins[0].ID == 0 {
-			log.Default().Print("User not found")
-			c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
-			return
+	for i := 0; i < len(admins); i++ {
+	
+		if admins[i].PhotoAdr != "" {
+			idx := strings.Index(admins[i].PhotoAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("admins&" + strconv.FormatUint(uint64(admins[i].ID), 10) + "&photo_adr")
+				admins[i].PhotoAdr = url + "/api/image/" + cipher
+			}
 		}
-	}*/
+
+	}
 
 	c.JSON(http.StatusOK, admins)
 }
@@ -260,20 +265,21 @@ func SearchAdmins(c *gin.Context) {
 func ListAdmins(c *gin.Context) {
 	var admins []models.Admin
 
+	url := os.Getenv("API_HOST")
+
 	infra.DB.Find(&admins)
 
-	/*if len(admins) == 0 {
-		log.Default().Print("No has users")
-		c.JSON(http.StatusNotFound, gin.H{"Not found": "No has users"})
-		return
-	} else {
-		if admins[0].ID == 0 {
-			log.Default().Print("User not found")
-			c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
-			return
-		}
-	}*/
+	for i := 0; i < len(admins); i++ {
 	
+		if admins[i].PhotoAdr != "" {
+			idx := strings.Index(admins[i].PhotoAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("admins&" + strconv.FormatUint(uint64(admins[i].ID), 10) + "&photo_adr")
+				admins[i].PhotoAdr = url + "/api/image/" + cipher
+			}
+		}
+
+	}
 
 	c.JSON(http.StatusOK, admins)
 }

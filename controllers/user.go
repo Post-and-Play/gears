@@ -3,8 +3,9 @@ package controllers
 import (
 	"log"
 	"net/http"
-	"os"
 	"strings"
+	"os"
+	"strconv"
 	"time"
 	"github.com/Post-and-Play/gears/infra"
 	"github.com/Post-and-Play/gears/models"
@@ -249,6 +250,8 @@ func SearchUsers(c *gin.Context) {
 	var users []models.User
 	name := c.Query("name")
 
+	url := os.Getenv("API_HOST")
+
 	if strings.Compare(name, "") != 0 { 
 		//log.Default().Print("name has cotent: " + name)
 		infra.DB.Where("name LIKE ? OR user_name LIKE ?", "%" + name + "%" , "%" + name + "%").Find(&users)
@@ -256,17 +259,25 @@ func SearchUsers(c *gin.Context) {
 		infra.DB.Find(&users)
 	}
 
-	/*if len(users) == 0 {
-		log.Default().Print("No has users")
-		c.JSON(http.StatusNotFound, gin.H{"Not found": "No has users"})
-		return
-	} else {
-		if users[0].ID == 0 {
-			log.Default().Print("User not found")
-			c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
-			return
+	for i := 0; i < len(users); i++ {
+	
+		if users[i].PhotoAdr != "" {
+			idx := strings.Index(users[i].PhotoAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("users&" + strconv.FormatUint(uint64(users[i].ID), 10) + "&photo_adr")
+				users[i].PhotoAdr = url + "/api/image/" + cipher
+			}
 		}
-	}*/
+
+		if users[i].TopAdr != "" {
+			idx := strings.Index(users[i].TopAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("users&" + strconv.FormatUint(uint64(users[i].ID), 10) + "&top_adr")
+				users[i].TopAdr = url + "/api/image/" + cipher
+			}
+		}
+
+	}
 
 	c.JSON(http.StatusOK, users)
 }
@@ -283,19 +294,29 @@ func SearchUsers(c *gin.Context) {
 func ListUsers(c *gin.Context) {
 	var users []models.User
 
+	url := os.Getenv("API_HOST")
+
 	infra.DB.Find(&users)
 		
-	/*if len(users) == 0 {
-		log.Default().Print("No has users")
-		c.JSON(http.StatusNotFound, gin.H{"Not found": "No has users"})
-		return
-	} else {
-		if users[0].ID == 0 {
-			log.Default().Print("User not found")
-			c.JSON(http.StatusNotFound, gin.H{"Not found": "User not found"})
-			return
+	for i := 0; i < len(users); i++ {
+	
+		if users[i].PhotoAdr != "" {
+			idx := strings.Index(users[i].PhotoAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("users&" + strconv.FormatUint(uint64(users[i].ID), 10) + "&photo_adr")
+				users[i].PhotoAdr = url + "/api/image/" + cipher
+			}
 		}
-	}*/
+
+		if users[i].TopAdr != "" {
+			idx := strings.Index(users[i].TopAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("users&" + strconv.FormatUint(uint64(users[i].ID), 10) + "&top_adr")
+				users[i].TopAdr = url + "/api/image/" + cipher
+			}
+		}
+
+	}
 	
 
 	c.JSON(http.StatusOK, users)

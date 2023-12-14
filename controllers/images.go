@@ -6,6 +6,7 @@ import (
     "strings"
     "encoding/base64"
 	"github.com/Post-and-Play/gears/infra"
+    "github.com/Post-and-Play/gears/services"
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,10 +22,22 @@ import (
 func GetImage(c *gin.Context) {
 
 	var img64 string
-   
-	m := c.Query("m")
-	id := c.Query("uid")
-	att := c.Query("att")
+    uid := c.Param("id")
+    text := services.Decrypt(uid)
+
+    log.Println("Hash %x", uid)
+    log.Println("Text %x", text)
+
+    itens := strings.Split(text, "&")
+
+    if len(itens) < 3 {
+        c.JSON(http.StatusNotFound, gin.H{"message": "Not content"})
+        return
+    }
+
+	m := itens[0]
+	id := itens[1]
+	att := itens[2]
 
 	infra.DB.Table(m).Select(att).Where("id = ?", id).Find(&img64)
 
@@ -57,6 +70,14 @@ func GetImage(c *gin.Context) {
     case "gif":
      
         c.Data(http.StatusOK, "image/gif", unbased)
+
+    case "x-icon":
+     
+        c.Data(http.StatusOK, "image/x-icon", unbased)
+
+    case "webp":
+     
+        c.Data(http.StatusOK, "image/webp", unbased)
 
     }
 

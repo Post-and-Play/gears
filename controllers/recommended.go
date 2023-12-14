@@ -3,7 +3,10 @@ package controllers
 import (
 	"log"
 	"net/http"
-
+	"os"
+	"strings"
+	"strconv"
+	"github.com/Post-and-Play/gears/services"
 	"github.com/Post-and-Play/gears/infra"
 	"github.com/Post-and-Play/gears/models"
 	"github.com/gin-gonic/gin"
@@ -138,6 +141,8 @@ func GetRecommended(c *gin.Context) {
 func SearchRecommended(c *gin.Context) {
 	var games []models.Recommended
 
+	url := os.Getenv("API_HOST")
+
 	infra.DB.Find(&games)
 
 	if len(games) == 0 {
@@ -150,6 +155,26 @@ func SearchRecommended(c *gin.Context) {
 			c.JSON(http.StatusNotFound, gin.H{"Not found": "Game not found"})
 			return
 		}
+	}
+
+	for i := 0; i < len(games); i++ {
+	
+		if games[i].CoverAdr != "" {
+			idx := strings.Index(games[i].CoverAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("games&" + strconv.FormatUint(uint64(games[i].Id), 10) + "&cover_adr")
+				games[i].CoverAdr = url + "/api/image/" + cipher
+			}
+		}
+
+		if games[i].TopAdr != "" {
+			idx := strings.Index(games[i].TopAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("games&" + strconv.FormatUint(uint64(games[i].Id), 10) + "&top_adr")
+				games[i].TopAdr = url + "/api/image/" + cipher
+			}
+		}
+
 	}
 
 	c.JSON(http.StatusOK, games)
@@ -167,6 +192,8 @@ func SearchRecommended(c *gin.Context) {
 func ListRecommended(c *gin.Context) {
 	var games []models.Recommended
 
+	url := os.Getenv("API_HOST")
+
 	infra.DB.Find(&games)
 
 	if len(games) == 0 {
@@ -181,6 +208,25 @@ func ListRecommended(c *gin.Context) {
 		}
 	}
 	
+	for i := 0; i < len(games); i++ {
+	
+		if games[i].CoverAdr != "" {
+			idx := strings.Index(games[i].CoverAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("games&" + strconv.FormatUint(uint64(games[i].Id), 10) + "&cover_adr")
+				games[i].CoverAdr = url + "/api/image/" + cipher
+			}
+		}
+
+		if games[i].TopAdr != "" {
+			idx := strings.Index(games[i].TopAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("games&" + strconv.FormatUint(uint64(games[i].Id), 10) + "&top_adr")
+				games[i].TopAdr = url + "/api/image/" + cipher
+			}
+		}
+
+	}
 
 	c.JSON(http.StatusOK, games)
 }

@@ -3,7 +3,10 @@ package controllers
 import (
 	"log"
 	"net/http"
-
+	"strings"
+	"os"
+	"strconv"
+	"github.com/Post-and-Play/gears/services"
 	"github.com/Post-and-Play/gears/infra"
 	"github.com/Post-and-Play/gears/models"
 	"github.com/gin-gonic/gin"
@@ -57,6 +60,8 @@ func GetFavoritesByUser(c *gin.Context) {
 	var favorites []models.FavoriteGame
 	var favorite models.Favorite
 
+	url := os.Getenv("API_HOST")
+
 	id := c.Query("id")
 
 	infra.DB.Model(&favorite).Select("favorites.id, favorites.user_id, favorites.game_id, games.name, games.genders, games.description, games.cover_adr, games.top_adr").Joins("LEFT JOIN games ON games.id = favorites.game_id").Where("user_id = $1", id).Scan(&favorites)
@@ -72,6 +77,27 @@ func GetFavoritesByUser(c *gin.Context) {
 			return
 		}
 	}
+
+	for i := 0; i < len(favorites); i++ {
+	
+		if favorites[i].CoverAdr != "" {
+			idx := strings.Index(favorites[i].CoverAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("games&" + strconv.FormatUint(uint64(favorites[i].GameId), 10) + "&cover_adr")
+				favorites[i].CoverAdr = url + "/api/image/" + cipher
+			}
+		}
+
+		if favorites[i].TopAdr != "" {
+			idx := strings.Index(favorites[i].TopAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("games&" + strconv.FormatUint(uint64(favorites[i].GameId), 10) + "&top_adr")
+				favorites[i].TopAdr = url + "/api/image/" + cipher
+			}
+		}
+
+	}
+
 	c.JSON(http.StatusOK, favorites)
 }
 

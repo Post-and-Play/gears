@@ -3,6 +3,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"strings"
 	"os"
 	"strconv"
 	"github.com/Post-and-Play/gears/infra"
@@ -90,18 +91,27 @@ func ListLastReviews(c *gin.Context) {
 	for i := 0; i < len(reviews); i++ {
 		//fmt.Println(i)
 		if reviews[i].ImageAdr != "" {
-			cipher := Encrypt("m=reviews&uid=" + strconv.FormatUint(uint64(reviews[i].Id), 10) + "&att=image_adr")
-			reviews[i].ImageAdr = url + "/api/image?" + cipher
+			idx := strings.Index(reviews[i].ImageAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("reviews&" + strconv.FormatUint(uint64(reviews[i].Id), 10) + "&image_adr")
+				reviews[i].ImageAdr = url + "/api/image/" + cipher
+			}
 		}
 
 		if reviews[i].PhotoAdr != "" {
-			cipher := Encrypt("m=users&uid=" + strconv.FormatUint(uint64(reviews[i].UserId), 10) + "&att=photo_adr")
-			reviews[i].PhotoAdr = url + "/api/image?" + cipher
+			idx := strings.Index(reviews[i].PhotoAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("users&" + strconv.FormatUint(uint64(reviews[i].UserId), 10) + "&photo_adr")
+				reviews[i].PhotoAdr = url + "/api/image/" + cipher
+			}
 		}
 
 		if reviews[i].TopAdr != "" {
-			cipher := Encrypt("m=games&uid=" + strconv.FormatUint(uint64(reviews[i].GameId), 10) + "&att=top_adr")
-			reviews[i].TopAdr = url + "/api/image?" + cipher
+			idx := strings.Index(reviews[i].TopAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("games&" + strconv.FormatUint(uint64(reviews[i].GameId), 10) + "&top_adr")
+				reviews[i].TopAdr = url + "/api/image/" + cipher
+			}
 		}
 
 	}
@@ -121,6 +131,8 @@ func ListLastReviews(c *gin.Context) {
 func ListReviewsByUser(c *gin.Context) {
 	var reviews []models.Review
 
+	url := os.Getenv("API_HOST")
+
 	id := c.Query("id")
 
 	infra.DB.Find(&reviews).Where("user_id = $1", id).Limit(30)
@@ -131,6 +143,17 @@ func ListReviewsByUser(c *gin.Context) {
 	//	return
 	//}
 
+	for i := 0; i < len(reviews); i++ {
+		//fmt.Println(i)
+		if reviews[i].ImageAdr != "" {
+			idx := strings.Index(reviews[i].ImageAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("reviews&" + strconv.FormatUint(uint64(reviews[i].Id), 10) + "&image_adr")
+				reviews[i].ImageAdr = url + "/api/image/" + cipher
+			}
+		}
+
+	}
 
 	c.JSON(http.StatusOK, reviews)
 }
@@ -179,6 +202,8 @@ func ListReviewsByGame(c *gin.Context) {
 	var reviews []models.ReviewUser
 	var review  []models.Review
 
+	url := os.Getenv("API_HOST")
+
 	id := c.Query("id")
 
 	infra.DB.Model(&review).Select("reviews.id, reviews.user_id, reviews.game_id, reviews.grade, reviews.image_adr, reviews.opinion, reviews.likes, users.name, users.photo_adr, games.name AS game_name, games.top_adr").Joins("LEFT JOIN users ON users.id = reviews.user_id").Joins("LEFT JOIN games ON games.id = reviews.game_id ").Where("game_id = $1", id).Scan(&reviews).Limit(30)
@@ -188,6 +213,34 @@ func ListReviewsByGame(c *gin.Context) {
 	//	c.JSON(http.StatusNotFound, gin.H{"Not found": "Reviews not found"})
 	//	return
 	//}
+
+	for i := 0; i < len(reviews); i++ {
+		//fmt.Println(i)
+		if reviews[i].ImageAdr != "" {
+			idx := strings.Index(reviews[i].ImageAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("reviews&" + strconv.FormatUint(uint64(reviews[i].Id), 10) + "&image_adr")
+				reviews[i].ImageAdr = url + "/api/image/" + cipher
+			}
+		}
+
+		if reviews[i].PhotoAdr != "" {
+			idx := strings.Index(reviews[i].PhotoAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("users&" + strconv.FormatUint(uint64(reviews[i].UserId), 10) + "&photo_adr")
+				reviews[i].PhotoAdr = url + "/api/image/" + cipher
+			}
+		}
+
+		if reviews[i].TopAdr != "" {
+			idx := strings.Index(reviews[i].TopAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("games&" + strconv.FormatUint(uint64(reviews[i].GameId), 10) + "&top_adr")
+				reviews[i].TopAdr = url + "/api/image/" + cipher
+			}
+		}
+
+	}
 
 	c.JSON(http.StatusOK, reviews)
 }

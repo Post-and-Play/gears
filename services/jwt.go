@@ -67,26 +67,27 @@ func SHA256Encoder(pass string) string {
 }
 
 func Encrypt(text string) string {
-	key := []byte("pap2023")
+	key := []byte("15f03dedbb5b8a09210c95249244fb67")
 	plaintext := []byte(text)
 	block, err := aes.NewCipher(key)
 	if err != nil {
 		panic(err.Error())
 	}
-	nonce := []byte("PostingAndPlaying")
+	nonce := []byte("blogPostGeek")
 	aesgcm, err := cipher.NewGCM(block)
 	if err != nil {
 		panic(err.Error())
 	}
 	ciphertext := aesgcm.Seal(nil, nonce, plaintext, nil)
 	//fmt.Printf("Ciphertext: %x\n", ciphertext)
-	return string(ciphertext)
+	//return string(ciphertext)
+	return fmt.Sprintf("%x", ciphertext)
 }
 
 func Decrypt(text string) string {
-	key := []byte("pap2023")
+	key := []byte("15f03dedbb5b8a09210c95249244fb67")
 	ciphertext, _ := hex.DecodeString(text)
-	nonce := []byte("PostingAndPlaying")
+	nonce := []byte("blogPostGeek")
 	block, err := aes.NewCipher(key)
 	if err != nil {
 		panic(err.Error())
@@ -100,5 +101,6 @@ func Decrypt(text string) string {
 		panic(err.Error())
 	}
 	//fmt.Printf("Plaintext: %s\n", string(plaintext))
-	return string(plaintext)
+	//return string(plaintext)
+	return fmt.Sprintf("%s", plaintext)
 }

@@ -4,6 +4,9 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"os"
+	"strconv"
+	"github.com/Post-and-Play/gears/services"
 	"github.com/Post-and-Play/gears/infra"
 	"github.com/Post-and-Play/gears/models"
 	"github.com/gin-gonic/gin"
@@ -140,6 +143,9 @@ func SearchGames(c *gin.Context) {
 	var games []models.Game
 	name := c.Query("name")
 
+	url := os.Getenv("API_HOST")
+
+
 	if strings.Compare(name, "") != 0 { 
 		//log.Default().Print("name has cotent: " + name)
 		infra.DB.Where("name LIKE ?", "%" + name + "%").Find(&games)
@@ -147,17 +153,25 @@ func SearchGames(c *gin.Context) {
 		infra.DB.Find(&games)
 	}
 
-	/*if len(games) == 0 {
-		log.Default().Print("No has games")
-		c.JSON(http.StatusNotFound, gin.H{"Not found": "No has games"})
-		return
-	} else {
-		if games[0].Id == 0 {
-			log.Default().Print("Game not found")
-			c.JSON(http.StatusNotFound, gin.H{"Not found": "Game not found"})
-			return
+	for i := 0; i < len(games); i++ {
+	
+		if games[i].CoverAdr != "" {
+			idx := strings.Index(games[i].CoverAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("games&" + strconv.FormatUint(uint64(games[i].Id), 10) + "&cover_adr")
+				games[i].CoverAdr = url + "/api/image/" + cipher
+			}
 		}
-	}*/
+
+		if games[i].TopAdr != "" {
+			idx := strings.Index(games[i].TopAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("games&" + strconv.FormatUint(uint64(games[i].Id), 10) + "&top_adr")
+				games[i].TopAdr = url + "/api/image/" + cipher
+			}
+		}
+
+	}
 
 	c.JSON(http.StatusOK, games)
 }
@@ -174,19 +188,29 @@ func SearchGames(c *gin.Context) {
 func ListGames(c *gin.Context) {
 	var games []models.Game
 
+	url := os.Getenv("API_HOST")
+
 	infra.DB.Find(&games)
 
-	/*if len(games) == 0 {
-		log.Default().Print("No has games")
-		c.JSON(http.StatusNotFound, gin.H{"Not found": "No has games"})
-		return
-	} else {
-		if games[0].Id == 0 {
-			log.Default().Print("Game not found")
-			c.JSON(http.StatusNotFound, gin.H{"Not found": "Game not found"})
-			return
+	for i := 0; i < len(games); i++ {
+	
+		if games[i].CoverAdr != "" {
+			idx := strings.Index(games[i].CoverAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("games&" + strconv.FormatUint(uint64(games[i].Id), 10) + "&cover_adr")
+				games[i].CoverAdr = url + "/api/image/" + cipher
+			}
 		}
-	}*/
+
+		if games[i].TopAdr != "" {
+			idx := strings.Index(games[i].TopAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("games&" + strconv.FormatUint(uint64(games[i].Id), 10) + "&top_adr")
+				games[i].TopAdr = url + "/api/image/" + cipher
+			}
+		}
+
+	}
 
 	c.JSON(http.StatusOK, games)
 }
@@ -203,7 +227,29 @@ func ListGames(c *gin.Context) {
 func GetRanking(c *gin.Context) {
 	var games []models.Game
 	
+	url := os.Getenv("API_HOST")
+
 	infra.DB.Model(&games).Order("reviews desc").Scan(&games).Limit(5)
+
+	for i := 0; i < len(games); i++ {
+	
+		if games[i].CoverAdr != "" {
+			idx := strings.Index(games[i].CoverAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("games&" + strconv.FormatUint(uint64(games[i].Id), 10) + "&cover_adr")
+				games[i].CoverAdr = url + "/api/image/" + cipher
+			}
+		}
+
+		if games[i].TopAdr != "" {
+			idx := strings.Index(games[i].TopAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("games&" + strconv.FormatUint(uint64(games[i].Id), 10) + "&top_adr")
+				games[i].TopAdr = url + "/api/image/" + cipher
+			}
+		}
+
+	}
 
 	c.JSON(http.StatusOK, games)
 }
@@ -222,7 +268,29 @@ func GetSimilar(c *gin.Context) {
 	var games []models.Game
 	gender := c.Query("gender")
 
+	url := os.Getenv("API_HOST")
+
 	infra.DB.Model(&games).Where("genders LIKE ?", "%" + gender + "%").Find(&games).Limit(5)
+
+	for i := 0; i < len(games); i++ {
+	
+		if games[i].CoverAdr != "" {
+			idx := strings.Index(games[i].CoverAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("games&" + strconv.FormatUint(uint64(games[i].Id), 10) + "&cover_adr")
+				games[i].CoverAdr = url + "/api/image/" + cipher
+			}
+		}
+
+		if games[i].TopAdr != "" {
+			idx := strings.Index(games[i].TopAdr, ";base64,")
+			if idx >= 0 {
+				cipher := services.Encrypt("games&" + strconv.FormatUint(uint64(games[i].Id), 10) + "&top_adr")
+				games[i].TopAdr = url + "/api/image/" + cipher
+			}
+		}
+
+	}
 
 	c.JSON(http.StatusOK, games)
 }
